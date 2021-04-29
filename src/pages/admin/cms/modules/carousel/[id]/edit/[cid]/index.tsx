@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const EditIdCarousel: FC = () => {
   const router: any = useRouter();
 
-  return <div>HELLO FROM EDIT</div>;
+  return <NewCarousel edit={true} />;
 };
 
 export default EditIdCarousel;
