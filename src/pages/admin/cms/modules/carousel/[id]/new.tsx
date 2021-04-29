@@ -65,7 +65,7 @@ const NewCarousel: FC = () => {
         <Col breakPoint={{ xs: 12, sm: 6 }}>
           <Card>
             <header>
-              <h6>New Slide</h6>
+              <h6> Slide Manager</h6>
             </header>
 
             <CardBody>
