@@ -7,6 +7,7 @@ import Col from '@paljs/ui/Col';
 import Row from '@paljs/ui/Row';
 import { EvaIcon } from '@paljs/ui/Icon';
 import styled from 'styled-components';
+
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
@@ -78,7 +79,12 @@ const Modules: FC = ({}) => {
                           </Button>
                         </Col>
                         <Col breakPoint={{ xs: 6 }}>
-                          <Button fullWidth type="button" status="Danger">
+                          <Button
+                            fullWidth
+                            type="button"
+                            status="Danger"
+                            onClick={() => db.collection('modules').doc(module.id).delete()}
+                          >
                             Delete
                           </Button>
                         </Col>

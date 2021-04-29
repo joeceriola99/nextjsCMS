@@ -15,8 +15,8 @@ const items: MenuItemType[] = [
     icon: { name: 'star-outline' },
     children: [
       {
-        title: 'Accordion',
-        link: { href: '/extra-components/accordion' },
+        title: 'PayMyCheck',
+        link: { href: '/404' },
       },
       {
         title: 'Modules',
@@ -69,21 +69,21 @@ const items: MenuItemType[] = [
     icon: { name: 'edit-2-outline' },
     children: [
       {
-        title: 'Inputs',
-        link: { href: '/forms/inputs' },
+        title: 'Contact Us',
+        link: { href: '/404' },
       },
       {
-        title: 'Layout',
-        link: { href: '/forms/form-layout' },
+        title: 'Social Media',
+        link: { href: '/404' },
       },
-      {
-        title: 'Buttons',
-        link: { href: '/forms/buttons' },
-      },
-      {
-        title: 'Select',
-        link: { href: '/forms/select' },
-      },
+      // {
+      //   title: 'Buttons',
+      //   link: { href: '/forms/buttons' },
+      // },
+      // {
+      //   title: 'Select',
+      //   link: { href: '/forms/select' },
+      // },
     ],
   },
   {
@@ -91,13 +91,25 @@ const items: MenuItemType[] = [
     icon: { name: 'keypad-outline' },
     children: [
       {
-        title: 'Grid',
-        link: { href: '/ui-features/grid' },
+        title: 'Sales',
+        link: { href: '/404' },
       },
       {
-        title: 'Animated Searches',
-        link: { href: '/ui-features/search' },
+        title: 'Catalog',
+        link: { href: '/404' },
       },
+      {
+        title: 'Modifiers',
+        link: { href: '/404' },
+      },
+      {
+        title: 'Shipping',
+        link: { href: '/404' },
+      },
+      // {
+      //   title: 'Animated Searches',
+      //   link: { href: '/ui-features/search' },
+      // },
     ],
   },
   {
@@ -105,16 +117,22 @@ const items: MenuItemType[] = [
     icon: { name: 'browser-outline' },
     children: [
       {
-        title: 'Popover',
-        link: { href: '/modal-overlays/popover' },
+        title: 'Credit Cards',
+        link: { href: '/404' },
       },
       {
-        title: 'Tooltip',
-        link: { href: '/modal-overlays/tooltip' },
+        title: 'Gift Cards',
+        link: { href: '/404' },
       },
       {
-        title: 'Toastr',
-        link: { href: '/modal-overlays/toastr' },
+        title: 'Rewards',
+        link: { href: '/404' },
+      },
+      {
+        title: 'Cryptocurrency',
+        link: {
+          href: '/404',
+        },
       },
     ],
   },
@@ -123,13 +141,17 @@ const items: MenuItemType[] = [
     icon: { name: 'text-outline' },
     children: [
       {
-        title: 'TinyMCE',
+        title: 'New',
         link: { href: '/editors/tinymce' },
       },
       {
-        title: 'CKEditor',
-        link: { href: '/editors/ckeditor' },
+        title: 'Page Manager',
+        link: { href: '/404' },
       },
+      // {
+      //   title: 'CKEditor',
+      //   link: { href: '/editors/ckeditor' },
+      // },
     ],
   },
   {
@@ -137,9 +159,17 @@ const items: MenuItemType[] = [
     icon: { name: 'shuffle-2-outline' },
     children: [
       {
-        title: '404',
-        link: { href: '/miscellaneous/404' },
+        title: 'SIC Endpoint',
+        link: { href: '/404' },
       },
+      {
+        title: 'POS Endpoint',
+        link: { href: '/404' },
+      },
+      // {
+      //   title: '404',
+      //   link: { href: '/miscellaneous/404' },
+      // },
     ],
   },
   {
@@ -147,21 +177,29 @@ const items: MenuItemType[] = [
     icon: { name: 'lock-outline' },
     children: [
       {
-        title: 'Login',
-        link: { href: '/auth/login' },
+        title: 'Users',
+        link: { href: '/404' },
       },
       {
-        title: 'Register',
-        link: { href: '/auth/register' },
+        title: 'Users Manager',
+        link: { href: '/404' },
       },
-      {
-        title: 'Request Password',
-        link: { href: '/auth/request-password' },
-      },
-      {
-        title: 'Reset Password',
-        link: { href: '/auth/reset-password' },
-      },
+      // {
+      //   title: 'Login',
+      //   link: { href: '/auth/login' },
+      // },
+      // {
+      //   title: 'Register',
+      //   link: { href: '/auth/register' },
+      // },
+      // {
+      //   title: 'Request Password',
+      //   link: { href: '/auth/request-password' },
+      // },
+      // {
+      //   title: 'Reset Password',
+      //   link: { href: '/auth/reset-password' },
+      // },
     ],
   },
 ];

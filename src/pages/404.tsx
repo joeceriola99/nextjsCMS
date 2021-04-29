@@ -24,6 +24,8 @@ const ErrorStyle = styled.div`
 `;
 export default function Error(): JSX.Element {
   const router = useRouter();
+
+  console.log(router, 'ROUTER');
   return (
     <Layout title="404 Page Not Found">
       <Card>

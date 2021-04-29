@@ -41,21 +41,27 @@ const NewCarousel: FC = () => {
   const handleSubmit = async (data: any) => {
     let url = data.image;
     if (typeof data.image === 'object') {
-      const storageRef = storage.ref('/carousels');
-      storageRef.put(data.image[0]);
-      const imageUrl = await storageRef.getDownloadURL();
-      url = imageUrl;
+      const storageRef = storage.ref('/carousels/' + data.image[0].name);
+      storageRef.put(data.image[0]).on(
+        'state_changed',
+        (snap) => {},
+        (err) => {},
+        async () => {
+          url = await storageRef.getDownloadURL();
+          db.collection('modules')
+            .doc(router.query.id)
+            .collection('data')
+            .add({
+              ...data,
+              image: url,
+            })
+            .then(() => {
+              router.back();
+            });
+        },
+      );
     }
-    db.collection('modules')
-      .doc(router.query.id)
-      .collection('data')
-      .add({
-        ...data,
-        image: url,
-      })
-      .then(() => {
-        router.back();
-      });
+
     console.log(data);
   };
 

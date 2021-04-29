@@ -83,7 +83,7 @@ const CarouselPage: FC = () => {
       .collection('modules')
       .doc(router.query.id)
       .onSnapshot((snapshot: any) => {
-        reset({ name: snapshot.data().name });
+        reset({ name: snapshot.data()?.name });
       });
 
     return unsubscribe;
@@ -143,8 +143,23 @@ const CarouselPage: FC = () => {
                               <div>{slide.heading}</div>
 
                               <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <FiEdit style={{ marginRight: '6px' }} />
-                                <GrSubtractCircle />
+                                <FiEdit
+                                  style={{ marginRight: '6px', cursor: 'pointer' }}
+                                  onClick={() => {
+                                    console.log('CLICKING');
+                                    router.push(`/admin/cms/modules/carousel/${router.query.id}/edit/${slide.id}`);
+                                  }}
+                                />
+                                <GrSubtractCircle
+                                  onClick={() => {
+                                    db.collection('modules')
+                                      .doc(router.query.id)
+                                      .collection('data')
+                                      .doc(slide.id)
+                                      .delete();
+                                  }}
+                                  style={{ cursor: 'pointer' }}
+                                />
                               </div>
                             </div>
                           </ListItem>

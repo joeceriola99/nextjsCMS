@@ -3,18 +3,37 @@ import React from 'react';
 import { Card, CardBody } from '@paljs/ui/Card';
 import Layout from 'Layouts';
 import { Editor } from '@tinymce/tinymce-react';
+import styled from 'styled-components';
+import { Button as OldButton } from '@paljs/ui/Button';
+import { HiOutlinePlusCircle } from 'react-icons/hi';
+import { useRouter } from 'next/router';
 
+const Button = styled(OldButton)`
+  text-transform: none !important;
+`;
 export default function TinyMCE() {
+  const router = useRouter();
   const handleEditorChange = (content: any, _editor: any) => {
     console.log('Content was updated:', content);
   };
+
   return (
     <Layout title="Tiny MCE editor">
       <Card>
-        <header>Tiny MCE</header>
+        <header>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <h6>New Page</h6>
+            <Button status="Basic" onClick={() => router.push('/404')}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <HiOutlinePlusCircle style={{ marginRight: '6px' }} size="20" />
+                Save
+              </div>
+            </Button>
+          </div>
+        </header>
         <CardBody>
           <Editor
-            initialValue="<p>This is the initial content of the editor</p>"
+            initialValue="<p>Create Content</p>"
             init={{
               height: 500,
               menubar: false,
