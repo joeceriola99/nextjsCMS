@@ -38,7 +38,7 @@ const Modules: FC = ({}) => {
   }, []);
   return (
     <Layout title="Modules">
-      <Card>
+      <Card size="Large">
         <header>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <h5>Module Manager</h5>
