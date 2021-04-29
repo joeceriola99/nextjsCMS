@@ -113,6 +113,20 @@ const Header: React.FC<HeaderProps> = (props) => {
                 onClick: props.toggleSidebar,
               },
             },
+
+            // {
+            //   content: (
+            //     <SelectStyled
+            //       instanceId="react-select-input"
+            //       isSearchable={false}
+            //       shape="SemiRound"
+            //       placeholder="Themes"
+            //       value={themeOptions().find((item) => item.value === props.theme.value)}
+            //       options={themeOptions()}
+            //       onChange={({ value }: { value: DefaultTheme['name'] }) => props.theme.set(value)}
+            //     />
+            //   ),
+            // },
             {
               content: (
                 <Link href="/">

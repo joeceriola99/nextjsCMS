@@ -144,7 +144,7 @@ const NewCarousel: FC<CarouselProps> = ({ edit = false }) => {
                 <br />
                 <Row>
                   <Col breakPoint={{ xs: 6 }}>
-                    <Button fullWidth status="Basic" type="submit">
+                    <Button fullWidth status="Basic" type="button" onClick={() => router.back()}>
                       CANCEL
                     </Button>
                   </Col>
