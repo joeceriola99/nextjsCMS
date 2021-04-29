@@ -1,5 +1,6 @@
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
+  width: 100% !important;
 }
 .custom-file-input::before {
   content: 'Browse File';
