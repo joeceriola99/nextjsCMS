@@ -76,12 +76,7 @@ const NewCarousel: FC = () => {
 
                 <Input name="url" placeholder="Redirect URL" />
 
-                <Input
-                  type="file"
-                  name="image"
-                  id="image"
-                  className="sc-hBEYos new__Button-sc-54z9gs-0 hLMWNY gSvWyI"
-                />
+                <Input type="file" name="image" id="image" className="custom-file-input" />
                 {image && (
                   <img
                     style={{ width: '150px' }}
