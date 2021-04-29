@@ -61,34 +61,21 @@ const NewCarousel: FC = () => {
 
   return (
     <Layout title="New Slide">
-      <Card>
-        <header>
-          <h5>New Slide</h5>
-        </header>
-        <CardBody>
-          <Form provider={methods} onSubmit={handleSubmit}>
-            <Row>
-              <Col breakPoint={{ xs: 2 }}>
-                <label>Heading</label>
-              </Col>
-              <Col breakPoint={{ xs: 10, md: 4 }}>
-                <Input name="heading" placeholder="Heading" />
-              </Col>
-            </Row>
-            <Row>
-              <Col breakPoint={{ xs: 2 }}>
-                <label>Sub Heading</label>
-              </Col>
-              <Col breakPoint={{ xs: 10, md: 4 }}>
-                <Input name="subHeading" placeholder="Sub Heading" />
-              </Col>
-            </Row>
+      <Row>
+        <Col breakPoint={{ xs: 12, sm: 6 }}>
+          <Card>
+            <header>
+              <h6>New Slide</h6>
+            </header>
 
-            <Row>
-              <Col breakPoint={{ xs: 2 }}>
-                <label>Image</label>
-              </Col>
-              <Col breakPoint={{ xs: 10, md: 4 }}>
+            <CardBody>
+              <Form provider={methods} onSubmit={handleSubmit}>
+                <Input name="heading" placeholder="Heading" />
+
+                <Input name="subHeading" placeholder="Sub Heading" />
+
+                <Input name="url" placeholder="Redirect URL" />
+
                 <Input
                   type="file"
                   name="image"
@@ -101,18 +88,25 @@ const NewCarousel: FC = () => {
                     src={typeof image === 'string' ? image : URL.createObjectURL(image[0])}
                   />
                 )}
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col breakPoint={{ xs: 2 }}></Col>
-              <Col breakPoint={{ xs: 10 }}>
-                <Button type="submit">Save</Button>
-              </Col>
-            </Row>
-          </Form>
-        </CardBody>
-      </Card>
+
+                <br />
+                <Row>
+                  <Col breakPoint={{ xs: 6 }}>
+                    <Button fullWidth status="Basic" type="submit">
+                      CANCEL
+                    </Button>
+                  </Col>
+                  <Col breakPoint={{ xs: 6 }}>
+                    <Button fullWidth status="Success" type="submit">
+                      SAVE
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </Layout>
   );
 };

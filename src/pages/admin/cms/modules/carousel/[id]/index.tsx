@@ -175,13 +175,6 @@ const Item = ({ item }: any) => {
           flexDirection: 'column',
         }}
       >
-        <h5
-          style={{
-            color: 'white',
-          }}
-        >
-          AJ Sliders
-        </h5>
         <h2 style={{ color: 'white', fontWeight: 800 }}>{item.heading}</h2>
         <h4 style={{ color: 'white' }}>{item.subHeading}</h4>
         <div>
