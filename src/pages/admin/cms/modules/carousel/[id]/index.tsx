@@ -18,6 +18,8 @@ import { db } from '../../../../../../../firebase';
 import { List, ListItem } from '@paljs/ui/List';
 import { FiEdit } from 'react-icons/fi';
 import { GrSubtractCircle } from 'react-icons/gr';
+import { Carousel } from 'react-responsive-carousel';
+import { AnyARecord } from 'node:dns';
 
 const Button = styled(OldButton)`
   text-transform: none !important;
@@ -32,7 +34,7 @@ const CarouselPage: FC = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().required('Title is required'),
   });
 
   const methods: any = useForm({
@@ -41,8 +43,16 @@ const CarouselPage: FC = () => {
     reValidateMode: 'onChange',
   });
 
+  const { reset } = methods;
+
   const handleSubmit = (data: any) => {
     console.log(data, 'DATA FORM');
+    db.collection('modules')
+      .doc(router.query.id)
+      .update({ name: data.name })
+      .then(() => {
+        router.push('/admin/cms/modules');
+      });
   };
 
   useEffect(() => {
@@ -51,6 +61,10 @@ const CarouselPage: FC = () => {
       .doc(router.query.id)
       .collection('data')
       .onSnapshot((snapshot) => {
+        console.log(
+          snapshot.docs.map((doc) => doc.data()),
+          'SNAPSHOT DATA',
+        );
         setSlides(
           snapshot.docs.map((doc: any) => {
             return {
@@ -59,6 +73,17 @@ const CarouselPage: FC = () => {
             };
           }),
         );
+      });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = db
+      .collection('modules')
+      .doc(router.query.id)
+      .onSnapshot((snapshot: any) => {
+        reset({ name: snapshot.data().name });
       });
 
     return unsubscribe;
@@ -73,7 +98,9 @@ const CarouselPage: FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <h5>Module Carousel</h5>
               <Row>
-                <Button status="Basic">Close</Button>
+                <Button status="Basic" onClick={() => router.back()}>
+                  Close
+                </Button>
                 <Button style={{ margin: '0px 10px' }} status="Basic">
                   Save
                 </Button>
@@ -130,9 +157,11 @@ const CarouselPage: FC = () => {
               <Col breakPoint={{ xs: 12, sm: 8 }}>
                 <Card size="Large" style={{ border: '2px solid rgb(237, 241, 247)', boxShadow: 'none' }}>
                   <CardBody>
-                    {slides.map((slide: any) => {
-                      return <Item item={slide} />;
-                    })}
+                    <Carousel autoPlay infiniteLoop>
+                      {slides.map((slide: any) => {
+                        return <Item item={slide} />;
+                      })}
+                    </Carousel>
                   </CardBody>
                 </Card>
               </Col>
@@ -168,10 +197,10 @@ const Item = ({ item }: any) => {
           position: 'absolute',
           padding: 5,
           top: '20%',
-          // left: isMobile ? '5%' : '25%',
+          left: '5%',
           display: 'flex',
-          alignContent: 'center',
-          justifyItems: 'center',
+          // alignContent: 'center',
+          justifyItems: 'flex-start',
           flexDirection: 'column',
         }}
       >

@@ -41,7 +41,7 @@ const NewCarousel: FC = () => {
   const handleSubmit = async (data: any) => {
     let url = data.image;
     if (typeof data.image === 'object') {
-      const storageRef = storage.ref(data?.image[0].name);
+      const storageRef = storage.ref('/carousels');
       storageRef.put(data.image[0]);
       const imageUrl = await storageRef.getDownloadURL();
       url = imageUrl;

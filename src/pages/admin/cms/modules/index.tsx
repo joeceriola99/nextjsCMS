@@ -9,6 +9,7 @@ import { EvaIcon } from '@paljs/ui/Icon';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { HiOutlinePlusCircle } from 'react-icons/hi';
 
 const Button = styled(OldButton)`
   text-transform: none !important;
@@ -42,7 +43,8 @@ const Modules: FC = ({}) => {
             <h5>Module Manager</h5>
             <Button status="Basic" onClick={() => router.push('/admin/cms/modules/select')}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <EvaIcon name="plus-circle-outline" options={{ width: '20' }} /> New
+                <HiOutlinePlusCircle style={{ marginRight: '6px' }} size="20" />
+                New
               </div>
             </Button>
           </div>
@@ -66,11 +68,17 @@ const Modules: FC = ({}) => {
                     <td>{module.createdAt}</td>
                     <td>
                       <Row>
-                        <Col breakPoint={{ xs: 2.5 }}>
-                          <Button status="Success">Edit</Button>
+                        <Col breakPoint={{ xs: 6 }}>
+                          <Button
+                            fullWidth
+                            status="Success"
+                            onClick={() => router.push(`/admin/cms/modules/${module.type}/${module.id}`)}
+                          >
+                            Edit
+                          </Button>
                         </Col>
-                        <Col breakPoint={{ xs: 2.5 }}>
-                          <Button type="button" status="Danger">
+                        <Col breakPoint={{ xs: 6 }}>
+                          <Button fullWidth type="button" status="Danger">
                             Delete
                           </Button>
                         </Col>

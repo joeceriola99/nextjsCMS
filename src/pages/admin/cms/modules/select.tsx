@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { db } from '../../../../../firebase';
 import moment from 'moment';
+import { CgCloseO } from 'react-icons/cg';
 
 const Button = styled(OldButton)`
   text-transform: none !important;
@@ -62,7 +63,7 @@ const Select: FC = () => {
                 <h5>Select a Module Type</h5>
                 <Button status="Control" onClick={() => router.push('/admin/cms/modules/')}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <EvaIcon name="close-circle-outline" options={{ width: '20' }} /> Close
+                    <CgCloseO size="20" style={{ marginRight: '6px' }} /> Close
                   </div>
                 </Button>
               </div>

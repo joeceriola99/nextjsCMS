@@ -20,6 +20,7 @@
     "react-hook-form": "^7.3.4",
     "react-icons": "^4.2.0",
     "react-material-ui-carousel": "^2.2.4",
+    "react-responsive-carousel": "^3.2.18",
     "styled-components": "5.2.1",
     "yup": "^0.32.9"
   },
