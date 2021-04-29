@@ -18,8 +18,8 @@ const SEO: React.FC<SEOProps> = ({ description, keywords, title }) => (
     <meta name="twitter:creator" content="@AhmedElywh" />
     <meta name="twitter:image" content="" />
     <meta property="og:image" content="" />
-    <link rel="icon" type="image/png" href="/icons/icon-72x72.png" />
-    <link rel="apple-touch-icon" type="image/png" href="/icons/icon-72x72.png" />
+    <link rel="icon" type="image/png" href="https://www.servingintel.com/templates/theme3198/favicon.ico" />
+    <link rel="apple-touch-icon" type="image/png" href="https://www.servingintel.com/templates/theme3198/favicon.ico" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171177495-4"></script>
     <script
       dangerouslySetInnerHTML={{
