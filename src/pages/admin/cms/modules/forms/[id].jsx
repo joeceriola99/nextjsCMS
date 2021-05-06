@@ -67,6 +67,7 @@ const FormsCreate = () => {
           <Form onSubmit={handleSubmit} provider={methods}>
             <Input name="name" placeholder="Enter Form Name" />
           </Form>
+          <br />
           <FormManagerComponent />
         </CardBody>
       </Card>

@@ -10,7 +10,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { db } from '../../../firebase';
 import { useRouter } from 'next/router';
 import { InputGroup } from '@paljs/ui/Input';
-import { GrSubtractCircle } from 'react-icons/gr';
+import { CgCloseO } from 'react-icons/cg';
+import { Tabs, Tab } from '@paljs/ui/Tabs';
+import Layout from 'Layouts';
+import { Checkbox } from '@paljs/ui/Checkbox';
 
 export const FormManagerComponent = () => {
   const router = useRouter();
@@ -38,6 +41,7 @@ export const FormManagerComponent = () => {
     setValue,
     reset,
     formState: { errors },
+    watch,
   } = methods;
 
   const handleSubmit = (data) => {
@@ -45,8 +49,13 @@ export const FormManagerComponent = () => {
     db.collection('modules')
       .doc(router.query.id)
       .collection('data')
-      .add({ ...data, sort: formPreview.length + 1 });
+      .add({ ...data, sort: formPreview.length + 1 })
+      .then(() => {
+        reset(initialValues);
+      });
   };
+
+  const check = watch('required');
 
   console.log(errors, ' ERRROS');
 
@@ -73,143 +82,209 @@ export const FormManagerComponent = () => {
   console.log(formPreview, 'PREV');
   return (
     <>
-      <Row style={{ height: '100%' }}>
-        <Col breakPoint={{ xs: 12, sm: 4 }}>
-          <Form provider={methods} onSubmit={handleSubmit}>
-            <Row>
-              <Col breakPoint={{ xs: 9 }}>
-                <Input name="name" placeholder="Enter Element Name" />
-              </Col>
-              <Col breakPoint={{ xs: 3 }}>
-                <Button fullWidth>ADD</Button>
-              </Col>
-              <br />
-              <Col>
-                <input
-                  type="checkbox"
-                  name="required"
-                  id="required"
-                  value={true}
-                  onChange={(e) => setValue('required', e.target.checked)}
-                />
-                <label for="required">Required</label>
-              </Col>
-              <Col>
-                <br />
-                <Controller
-                  name="type"
-                  control={methods.control}
-                  render={() => {
-                    return (
-                      <Select
-                        placeholder="Select Type"
-                        options={[
-                          {
-                            label: 'Text',
-                            value: 'Text',
-                          },
-                          {
-                            label: 'Dropdown',
-                            value: 'Dropdown',
-                          },
-                          {
-                            label: 'Checkbox',
-                            value: 'Checkbox',
-                          },
-                          {
-                            label: 'Button',
-                            value: 'Button',
-                          },
-                        ]}
-                        onChange={(e) => {
-                          console.log(e);
-                          setValue('type', e.value);
-                        }}
-                      />
-                    );
-                  }}
-                />
-                {errors.type && <p style={{ color: 'red' }}>{errors.type.message}</p>}
-              </Col>
-              <Col>
-                <br />
-                <Controller
-                  name="type"
-                  control={methods.control}
-                  render={() => {
-                    return (
-                      <Select
-                        placeholder="Required Type"
-                        options={[
-                          {
-                            label: 'Email',
-                            value: 'Email',
-                          },
-                          {
-                            label: 'Number',
-                            value: 'Number',
-                          },
-                          {
-                            label: 'Date',
-                            value: 'Date',
-                          },
-                        ]}
-                        onChange={(e) => {
-                          console.log(e);
-                          setValue('requiredType', e.value);
-                        }}
-                      />
-                    );
-                  }}
-                />
-                {errors.requiredType && <p style={{ color: 'red' }}>{errors.requiredType.message}</p>}
-              </Col>
-            </Row>
-          </Form>
-        </Col>
-        <Col
-          breakPoint={{ xs: 12, sm: 8 }}
-          style={{ border: '1px solid gray', maxHeight: '100%', minHeight: '100%', overflow: 'auto', padding: '1rem' }}
+      <Tabs activeIndex={0} style={{ height: '100%' }}>
+        <Tab
+          title="Create Form"
+          icon="icon ion-ios-home"
+          badge={{ status: 'Warning', position: 'topStart' }}
+          responsive
         >
-          <Row center={'xs'} style={{ alignItems: 'center' }}>
-            {formPreview.map((form) => {
-              if (form.type === 'Text') {
-                return (
-                  <Fragment key={form.id}>
-                    <Col breakPoint={{ xs: 4 }}>
-                      <div>
-                        <p>{form.name}</p>
-                      </div>
-                    </Col>
-                    <Col breakPoint={{ xs: 7 }} style={{ margin: '1rem 0rem' }}>
-                      <InputGroup fullWidth>
-                        <input />
-                      </InputGroup>
-                    </Col>
-                    <Col breakPoint={{ xs: 1 }}>
-                      <GrSubtractCircle
-                        onClick={() => {
-                          db.collection('modules').doc(router.query.id).collection('data').doc(form.id).delete();
-                        }}
-                        style={{ cursor: 'pointer' }}
-                      />
-                    </Col>
-                  </Fragment>
-                );
-              }
-              if (form.type === 'Button') {
-                return (
-                  <Col key={form.id}>
-                    <Button fullWidth status="Basic">
-                      Submit
-                    </Button>
+          <br />
+          <Row style={{ height: '100%' }}>
+            <Col breakPoint={{ xs: 12, sm: 4 }}>
+              <Form provider={methods} onSubmit={handleSubmit}>
+                <Row>
+                  <Col breakPoint={{ xs: 9 }}>
+                    <Input name="name" placeholder="Enter Element Name" />
                   </Col>
-                );
-              }
-            })}
+                  <Col breakPoint={{ xs: 3 }}>
+                    <Button fullWidth>ADD</Button>
+                  </Col>
+                  <br />
+                  <Col>
+                    <Checkbox
+                      onChange={(e) => {
+                        console.log(e, 'CHECKED');
+                        setValue('required', e);
+                      }}
+                      checked={check}
+                    >
+                      Required
+                    </Checkbox>
+                  </Col>
+                  <Col>
+                    <br />
+                    <Controller
+                      name="type"
+                      control={methods.control}
+                      render={() => {
+                        return (
+                          <Select
+                            placeholder="Select Type"
+                            options={[
+                              {
+                                label: 'Text',
+                                value: 'Text',
+                              },
+                              {
+                                label: 'Dropdown',
+                                value: 'Dropdown',
+                              },
+                              {
+                                label: 'Checkbox',
+                                value: 'Checkbox',
+                              },
+                              {
+                                label: 'Button',
+                                value: 'Button',
+                              },
+                            ]}
+                            onChange={(e) => {
+                              console.log(e);
+                              setValue('type', e.value);
+                            }}
+                          />
+                        );
+                      }}
+                    />
+                    {errors.type && <p style={{ color: 'red' }}>{errors.type.message}</p>}
+                  </Col>
+                  <Col>
+                    <br />
+                    <Controller
+                      name="type"
+                      control={methods.control}
+                      render={() => {
+                        return (
+                          <Select
+                            placeholder="Required Type"
+                            options={[
+                              {
+                                label: 'Email',
+                                value: 'Email',
+                              },
+                              {
+                                label: 'Number',
+                                value: 'Number',
+                              },
+                              {
+                                label: 'Date',
+                                value: 'Date',
+                              },
+                            ]}
+                            onChange={(e) => {
+                              console.log(e);
+                              setValue('requiredType', e.value);
+                            }}
+                          />
+                        );
+                      }}
+                    />
+                    {errors.requiredType && <p style={{ color: 'red' }}>{errors.requiredType.message}</p>}
+                  </Col>
+                </Row>
+              </Form>
+            </Col>
+            <Col
+              breakPoint={{ xs: 12, sm: 8 }}
+              style={{
+                border: '1px solid #bebebe',
+                maxHeight: '100%',
+                minHeight: '50vh',
+                overflow: 'auto',
+                padding: '1rem',
+                borderRadius: '5px',
+              }}
+            >
+              <Row center={'xs'} style={{ alignItems: 'center' }}>
+                {formPreview.map((form) => {
+                  if (form.type === 'Text') {
+                    return (
+                      <Fragment key={form.id}>
+                        <Col breakPoint={{ xs: 3 }}>
+                          <div>
+                            <p style={{ textAlign: 'center' }}>{form.name}</p>
+                          </div>
+                        </Col>
+                        <Col breakPoint={{ xs: 7 }} style={{ margin: '1rem 0rem' }}>
+                          <InputGroup fullWidth>
+                            <input />
+                          </InputGroup>
+                        </Col>
+                        <Col breakPoint={{ xs: 2 }}>
+                          <CgCloseO
+                            onClick={() => {
+                              db.collection('modules').doc(router.query.id).collection('data').doc(form.id).delete();
+                            }}
+                            style={{ cursor: 'pointer', color: 'red' }}
+                          />
+                        </Col>
+                      </Fragment>
+                    );
+                  }
+                  if (form.type === 'Button') {
+                    return (
+                      <Fragment key={form.id}>
+                        <Col breakPoint={{ xs: 3 }}></Col>
+                        <Col breakPoint={{ xs: 7 }}>
+                          <Button fullWidth status="Basic">
+                            {form.name}
+                          </Button>
+                        </Col>
+                        <Col breakPoint={{ xs: 2 }}>
+                          <CgCloseO
+                            onClick={() => {
+                              db.collection('modules').doc(router.query.id).collection('data').doc(form.id).delete();
+                            }}
+                            style={{ cursor: 'pointer', color: 'red' }}
+                          />
+                        </Col>
+                      </Fragment>
+                    );
+                  }
+                })}
+              </Row>
+            </Col>
           </Row>
-        </Col>
-      </Row>
+        </Tab>
+        <Tab title="Settings" icon="icon ion-ios-home" badge={{ status: 'Danger', position: 'topStart' }} responsive>
+          <form>
+            <InputGroup fullWidth>
+              <input type="text" placeholder="Subject" />
+            </InputGroup>
+            <br />
+            <InputGroup fullWidth>
+              <input type="text" placeholder="Heading" />
+            </InputGroup>
+            <br />
+
+            <InputGroup fullWidth>
+              <input type="email" placeholder="Email to" />
+            </InputGroup>
+            <br />
+
+            {/* <Input fullWidth>
+            <input type="text" placeholder="Confirm Password" />
+          </Input> */}
+            {/* <Checkbox checked onChange={onCheckbox}>
+           Subscribe to Newsletter
+            
+          </Checkbox> */}
+            <Button status="Success" type="button" shape="SemiRound" fullWidth>
+              Submit
+            </Button>
+          </form>
+          {/* <Socials /> */}
+          {/* <p>
+          Already have an account?{' '}
+          <Link href="/auth/login">
+            <a>Log In</a>
+          </Link>
+        </p> */}
+          {/* </Auth> */}
+          {/* </Layout> */}
+        </Tab>
+      </Tabs>
     </>
   );
 };

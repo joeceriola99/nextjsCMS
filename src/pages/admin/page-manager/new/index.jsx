@@ -125,7 +125,10 @@ const NewPageManager = () => {
 
               <RowModule page={page} setError={setError} />
             </Col>
-            <Col breakPoint={{ sm: 8 }} style={{ border: '1px solid gray', maxHeight: '100%', overflow: 'auto' }}>
+            <Col
+              breakPoint={{ sm: 8 }}
+              style={{ border: '1px solid #bebebe', maxHeight: '100%', overflow: 'auto', borderRadius: '5px' }}
+            >
               {pageView.map((page) => {
                 return page.type === 'carousel' ? (
                   <Carousel>
@@ -159,7 +162,7 @@ export default NewPageManager;
 
 const Item = ({ item }) => {
   return (
-    <div style={{ position: 'relative', top: 0, left: 0 }}>
+    <div style={{ position: 'relative', top: 0, left: 0, width: '100%' }}>
       <img
         src={item.image}
         alt={'Carousel Item'}
