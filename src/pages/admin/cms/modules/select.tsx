@@ -30,6 +30,10 @@ const moduleList = [
     name: 'Custom HTML',
     route: 'custom-html',
   },
+  {
+    name: 'Forms',
+    route: 'forms',
+  },
 ];
 const Select: FC = () => {
   const router = useRouter();

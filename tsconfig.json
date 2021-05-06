@@ -24,5 +24,11 @@
     }
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/admin/cms/modules/custom-html/[id]/index.jsx",
+    "src/pages/admin/cms/modules/gallery/[id]/index.jsx"
+  ]
 }

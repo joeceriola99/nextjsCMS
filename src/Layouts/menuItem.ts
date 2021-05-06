@@ -146,7 +146,7 @@ const items: MenuItemType[] = [
       },
       {
         title: 'Page Manager',
-        link: { href: '/404' },
+        link: { href: '/admin/page-manager' },
       },
       // {
       //   title: 'CKEditor',

@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 onClick: props.toggleSidebar,
               },
             },
-
+            // Dear JOE
             // {
             //   content: (
             //     <SelectStyled

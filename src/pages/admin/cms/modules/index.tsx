@@ -61,7 +61,7 @@ const Modules: FC = ({}) => {
             <tbody>
               {modules.map((module: any) => {
                 return (
-                  <tr>
+                  <tr key={module.id}>
                     <td>{module.name}</td>
                     <td>
                       <p className="capitalize">{module.type}</p>
