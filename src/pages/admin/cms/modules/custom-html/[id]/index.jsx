@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, Fragment } from 'react';
 import { Card, CardBody } from '@paljs/ui/Card';
 import Layout from 'Layouts';
 import styled from 'styled-components';
@@ -9,14 +9,13 @@ import { Form, Input } from '../../../../../../components/Forms';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { db } from '../../../../../../../firebase';
+
 // import { CKEditor } from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { db } from '../../../../../../../firebase';
-// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-// import Editor from 'ckeditor5-custom-build/build/ckeditor';
-// import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
-let CKEditor;
-let ClassicEditor;
+// let CKEditor;
+// let ClassicEditor;
 const Button = styled(OldButton)`
   text-transform: none !important;
 `;
@@ -82,63 +81,70 @@ export default function TinyMCE() {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    CKEditor = require('@ckeditor/ckeditor5-react');
-    ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const CKEditorMain = require('@ckeditor/ckeditor5-react');
+  //     ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
+  //     CKEditor = CKEditorMain.CKEditor;
+  //   }
+  // }, []);
 
   return (
-    <Layout title="Tiny MCE editor">
-      <Form provider={methods} onSubmit={handleSubmit}>
-        <Card>
-          <header>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <h6>New Custom HTML</h6>
-              <Button status="Basic">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <HiOutlinePlusCircle style={{ marginRight: '6px' }} size="20" />
-                  Save
+    <Fragment>
+      {typeof window !== 'undefined' && (
+        <Layout title="Tiny MCE editor">
+          <Form provider={methods} onSubmit={handleSubmit}>
+            <Card>
+              <header>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h6>New Custom HTML</h6>
+                  <Button status="Basic">
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <HiOutlinePlusCircle style={{ marginRight: '6px' }} size="20" />
+                      Save
+                    </div>
+                  </Button>
                 </div>
-              </Button>
-            </div>
-          </header>
+              </header>
 
-          <CardBody>
-            <Input name="name" placeholder="Title" />
-            <CKEditor
-              // editor={ClassicEditor}
-              data={data}
-              // config={{
-              //   plugins: [Paragraph, Bold, Italic, Essentials],
-              //   toolbar: ['bold', 'italic'],
-              // }}
-              editor={ClassicEditor}
-              onReady={(editor) => {
-                // You can store the "editor" and use when it is needed.
-                console.log('Editor is ready to use!', editor);
-              }}
-              onChange={(event, editor) => {
-                console.log(editor.getData(), 'CHANGE IN EDITOR', event);
-                handleChange(editor);
-              }}
-              onBlur={(event, editor) => {
-                console.log('Blur.', editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log('Focus.', editor);
-              }}
-              // config={{
-              //   toolbar: ['bold', 'italic', 'htmlSource'],
-              //   // plugins: [HtmlEmbed],
-              // }}
-              // config={{
-              //   toolbar: ['htmlSource'],
-              // }}
-            />
-            {errors.data && <p style={{ color: 'red' }}>{errors.data.message}</p>}
-          </CardBody>
-        </Card>
-      </Form>
-    </Layout>
+              <CardBody>
+                <Input name="name" placeholder="Title" />
+                {/* <CKEditor
+                  // editor={ClassicEditor}
+                  data={data}
+                  // config={{
+                  //   plugins: [Paragraph, Bold, Italic, Essentials],
+                  //   toolbar: ['bold', 'italic'],
+                  // }}
+                  editor={ClassicEditor}
+                  onReady={(editor) => {
+                    // You can store the "editor" and use when it is needed.
+                    console.log('Editor is ready to use!', editor);
+                  }}
+                  onChange={(event, editor) => {
+                    console.log(editor.getData(), 'CHANGE IN EDITOR', event);
+                    handleChange(editor);
+                  }}
+                  onBlur={(event, editor) => {
+                    console.log('Blur.', editor);
+                  }}
+                  onFocus={(event, editor) => {
+                    console.log('Focus.', editor);
+                  }}
+                  // config={{
+                  //   toolbar: ['bold', 'italic', 'htmlSource'],
+                  //   // plugins: [HtmlEmbed],
+                  // }}
+                  // config={{
+                  //   toolbar: ['htmlSource'],
+                  // }}
+                /> */}
+                {errors.data && <p style={{ color: 'red' }}>{errors.data.message}</p>}
+              </CardBody>
+            </Card>
+          </Form>
+        </Layout>
+      )}
+    </Fragment>
   );
 }
