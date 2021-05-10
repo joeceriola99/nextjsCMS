@@ -5,7 +5,6 @@ import { Card, CardBody } from '@paljs/ui/Card';
 
 import { Button as OldButton } from '@paljs/ui/Button';
 
-import { EvaIcon } from '@paljs/ui/Icon';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { Form, Input } from '../../../../../../components/Forms';
@@ -19,7 +18,6 @@ import { List, ListItem } from '@paljs/ui/List';
 import { FiEdit } from 'react-icons/fi';
 import { GrSubtractCircle } from 'react-icons/gr';
 import { Carousel } from 'react-responsive-carousel';
-import { AnyARecord } from 'node:dns';
 
 const Button = styled(OldButton)`
   text-transform: none !important;
