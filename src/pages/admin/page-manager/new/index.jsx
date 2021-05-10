@@ -98,9 +98,15 @@ const NewPageManager = () => {
         <header>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <h6>Page Editor</h6>
-            <Button status="Basic" onClick={handleSubmit(onSubmit)}>
-              Save
-            </Button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Button status="Basic" onClick={() => router.back()}>
+                Close
+              </Button>
+              <div style={{ margin: '0rem 6px' }} />
+              <Button status="Basic" onClick={handleSubmit(onSubmit)}>
+                Save
+              </Button>
+            </div>
           </div>
         </header>
         <CardBody>

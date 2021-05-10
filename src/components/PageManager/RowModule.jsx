@@ -117,14 +117,24 @@ const RowModule = ({ page, setError }) => {
     <>
       <br />
       <Form provider={methods} onSubmit={handleSubmit}>
-        <Row>
-          <Col breakPoint={{ xs: 6 }}>
+        <Row style={{ position: 'relative' }}>
+          <Col breakPoint={{ xs: 7 }}>
             <InputGroup fullWidth>
               <Controller
                 name="moduleName"
                 control={methods.control}
                 render={() => (
                   <Autocomplete
+                    menuStyle={{
+                      zIndex: 10000,
+                      position: 'absolute',
+                      left: 0,
+                      top: 47,
+                      border: '1px solid #bebebe',
+                      backgroundColor: '#fff',
+                      padding: '1rem',
+                      width: '150%',
+                    }}
                     getItemValue={(item) => item.label}
                     items={modules
                       .map((module) => {
@@ -142,8 +152,9 @@ const RowModule = ({ page, setError }) => {
                         }
                       })}
                     renderItem={(item, isHighlighted) => (
-                      <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>{item.label}</div>
+                      <div style={{ backgroundColor: isHighlighted ? 'lightgray' : 'white' }}>{item.label}</div>
                     )}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().includes(value.toLowerCase())}
                     value={selectedModule}
                     onChange={(e) => {
                       setSelectedModule(e.target.value);
@@ -157,7 +168,7 @@ const RowModule = ({ page, setError }) => {
               />
             </InputGroup>
           </Col>
-          <Col breakPoint={{ xs: 6 }}>
+          <Col breakPoint={{ xs: 5 }}>
             <Button type="submit" fullWidth>
               Import
             </Button>
@@ -172,7 +183,7 @@ const RowModule = ({ page, setError }) => {
         <Col breakPoint={{ xs: 4 }}>
           <p>Ordering</p>
         </Col>
-        <List>
+        <List style={{ zIndex: 1 }}>
           {importedModules.map((module, i) => {
             return (
               <ListItem style={{ padding: '4px' }}>
