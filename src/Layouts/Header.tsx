@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled, { DefaultTheme } from 'styled-components';
@@ -71,24 +71,24 @@ const Header: React.FC<HeaderProps> = (props) => {
         </Label>
       ),
     },
-    {
-      value: 'dark',
-      label: (
-        <Label>
-          <EvaIcon name="droplet" options={{ fill: '#192038' }} />
-          Dark
-        </Label>
-      ),
-    },
-    {
-      value: 'cosmic',
-      label: (
-        <Label>
-          <EvaIcon name="droplet" options={{ fill: '#5a37b8' }} />
-          Cosmic
-        </Label>
-      ),
-    },
+    // {
+    //   value: 'dark',
+    //   label: (
+    //     <Label>
+    //       <EvaIcon name="droplet" options={{ fill: '#192038' }} />
+    //       Dark
+    //     </Label>
+    //   ),
+    // },
+    // {
+    //   value: 'cosmic',
+    //   label: (
+    //     <Label>
+    //       <EvaIcon name="droplet" options={{ fill: '#5a37b8' }} />
+    //       Cosmic
+    //     </Label>
+    //   ),
+    // },
     {
       value: 'corporate',
       label: (
@@ -100,6 +100,10 @@ const Header: React.FC<HeaderProps> = (props) => {
       selected: true,
     },
   ];
+
+  useEffect(() => {
+    props.theme.set('default');
+  }, []);
   return (
     <LayoutHeader fixed>
       <HeaderStyle>

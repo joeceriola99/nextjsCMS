@@ -270,9 +270,6 @@ export const FormManagerComponent = () => {
            Subscribe to Newsletter
             
           </Checkbox> */}
-            <Button status="Success" type="button" shape="SemiRound" fullWidth>
-              Submit
-            </Button>
           </form>
           {/* <Socials /> */}
           {/* <p>

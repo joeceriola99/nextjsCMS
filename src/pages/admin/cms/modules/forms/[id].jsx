@@ -9,6 +9,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormManagerComponent } from '../../../../../components/FormManager';
 import { useRouter } from 'next/router';
 import { db } from '../../../../../../firebase';
+import Row from '@paljs/ui/Row';
+import Col from '@paljs/ui/Col';
 const FormsCreate = () => {
   const router = useRouter();
   const initialValues = {
@@ -58,9 +60,18 @@ const FormsCreate = () => {
         <header>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <h6>Form Editor</h6>
-            <Button status="Basic" onClick={handleSubmit(onSubmit)}>
-              Save
-            </Button>
+            <Row>
+              <Col breakPoint={{ xs: 6 }}>
+                <Button status="Basic" onClick={() => router.back()}>
+                  Close
+                </Button>
+              </Col>
+              <Col breakPoint={{ xs: 6 }}>
+                <Button status="Basic" onClick={handleSubmit(onSubmit)}>
+                  Save
+                </Button>
+              </Col>
+            </Row>
           </div>
         </header>
         <CardBody>
