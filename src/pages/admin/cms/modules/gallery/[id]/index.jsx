@@ -27,7 +27,7 @@ const Button = styled(OldButton)`
 `;
 
 const Gallery = () => {
-  const router: any = useRouter();
+  const router = useRouter();
   const [galleryImages, setGalleryImages] = useState([]);
   const initialValues = {
     name: '',
@@ -43,7 +43,7 @@ const Gallery = () => {
   });
   const { reset } = methods;
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data) => {
     db.collection('modules')
       .doc(router.query.id)
       .update({ name: data.name })
@@ -57,9 +57,9 @@ const Gallery = () => {
       .collection('modules')
       .doc(router.query.id)
       .collection('data')
-      .onSnapshot((snapshot: any) => {
+      .onSnapshot((snapshot) => {
         setGalleryImages(
-          snapshot.docs.map((doc: any) => {
+          snapshot.docs.map((doc) => {
             return {
               ...doc.data(),
               id: doc.id,
@@ -112,7 +112,7 @@ const Gallery = () => {
                           type="file"
                           className="custom-file-input"
                           style={{ width: '100%' }}
-                          onChange={(e: any) => {
+                          onChange={(e) => {
                             console.log(e.target.files[0], 'TARGET FILES');
                             const storageRef = storage.ref('/carousels/' + e.target.files[0].name);
                             storageRef.put(e.target.files[0]).on(
@@ -122,7 +122,7 @@ const Gallery = () => {
                                 console.log(err, 'ERROR');
                               },
                               async () => {
-                                let url: any = await storageRef.getDownloadURL();
+                                let url = await storageRef.getDownloadURL();
                                 db.collection('modules').doc(router.query.id).collection('data').add({
                                   image: url,
                                 });
@@ -138,7 +138,7 @@ const Gallery = () => {
                   <Card size="Large" style={{ border: '2px solid rgb(237, 241, 247)', boxShadow: 'none' }}>
                     <CardBody>
                       <Row>
-                        {galleryImages.map((data, i): any => {
+                        {galleryImages.map((data, i) => {
                           return (
                             <Col breakPoint={{ xs: 12, sm: 4 }} key={i} style={{ position: 'relative' }}>
                               <div style={{ position: 'absolute', top: '10px', right: '20px' }}>
