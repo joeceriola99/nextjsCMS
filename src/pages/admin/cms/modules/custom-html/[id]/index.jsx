@@ -9,13 +9,14 @@ import { Form, Input } from '../../../../../../components/Forms';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { db } from '../../../../../../../firebase';
 // import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 // import Editor from 'ckeditor5-custom-build/build/ckeditor';
 // import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
-
+let CKEditor;
+let ClassicEditor;
 const Button = styled(OldButton)`
   text-transform: none !important;
 `;
@@ -79,6 +80,11 @@ export default function TinyMCE() {
       });
 
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    CKEditor = require('@ckeditor/ckeditor5-react');
+    ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
   }, []);
 
   return (
