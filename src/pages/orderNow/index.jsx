@@ -3,7 +3,7 @@ import NavBar from '../../components/Navigation/navbar';
 import Header from '../../components/Navigation/index';
 import Card from './card';
 // import Image from 'next/image';
-import { Typography,  Container } from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 
 export default function orderNow(props) {
   return (
