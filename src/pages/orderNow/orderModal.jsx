@@ -9,6 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
+import ProductModifier from './productModifiers';
+
+import { db } from '../../../firebase';
 
 const styles = (theme) => ({
   root: {
@@ -27,7 +30,7 @@ const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography variant="h5">{children}</Typography>
       {onClose ? (
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
@@ -54,6 +57,7 @@ export default function CustomizedDialogs(props) {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState(false);
   const [product, setProduct] = useState(null);
+  const [modifiers, setModifiers] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,9 +69,20 @@ export default function CustomizedDialogs(props) {
   useEffect(async () => {
     let productData = props.data;
     setProduct(productData);
+    // console.log('Product ID', props.data.ItemID);
+
+    const modifierData = await db.collection('modifiers').get();
+    modifierData.docs.map((doc, index) => {
+      let formatData = doc.data();
+      // console.log('FormData-', index, '==', formatData.ItemID);
+      if (formatData.ItemID == props.data.ItemID) {
+        console.log(formatData);
+        setModifiers(formatData);
+      }
+    });
+
     let url = 'https://ajsliders.com/images/' + props.data.FileName;
     setUrl(url);
-    console.log(url);
   }, []);
 
   return (
@@ -75,14 +90,17 @@ export default function CustomizedDialogs(props) {
       <AddCircleOutline onClick={handleClickOpen} />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          <strong>{product?.title}</strong>
+          {product?.title}
         </DialogTitle>
         <DialogContent dividers>
-          <img src={url} alt="Product Image" width={'100%'}/>
+          <img src={url} alt="Product Image" width={'100%'} />
+          <ProductModifier data={modifiers} />
           <Typography gutterBottom>{product?.fulltext}</Typography>
         </DialogContent>
-        <DialogActions style={{display:"flex", justifyContent:"space-between"}}>
-          <span style={{paddingLeft:'50px', fontSize:'1.1rem'}}>   <strong>{`$${product?.price}`}</strong></span>
+        <DialogActions>
+          <DialogContent style={{ paddingLeft: '40px', fontSize: '1.1rem', fontWeight: '600' }}>
+            {`$${product?.price}`}
+          </DialogContent>
           <Button autoFocus onClick={handleClose} color="primary">
             Add to Check
           </Button>

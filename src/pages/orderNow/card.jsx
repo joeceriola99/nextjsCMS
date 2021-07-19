@@ -9,7 +9,7 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 // import AddSharpIcon from '@material-ui/icons/AddSharp';
-import Modal from './orderModal';
+import OrderModal from './orderModal';
 import { db } from '../../../firebase';
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,7 @@ export default function RecipeReviewCard() {
                       </CardContent>
                       <CardActions className={classes.icons}>
                         <IconButton>
-                          <Modal data={data}/>
+                          <OrderModal data={data} />
                         </IconButton>
                         <IconButton aria-label="add to favorites">
                           <FavoriteIcon />
