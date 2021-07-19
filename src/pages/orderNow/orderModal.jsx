@@ -75,15 +75,16 @@ export default function CustomizedDialogs(props) {
       <AddCircleOutline onClick={handleClickOpen} />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {product?.title}
+          <strong>{product?.title}</strong>
         </DialogTitle>
         <DialogContent dividers>
-          <img src={url} alt="Product Image" />
+          <img src={url} alt="Product Image" width={'100%'}/>
           <Typography gutterBottom>{product?.fulltext}</Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{display:"flex", justifyContent:"space-between"}}>
+          <span style={{paddingLeft:'50px', fontSize:'1.1rem'}}>   <strong>{`$${product?.price}`}</strong></span>
           <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
+            Add to Check
           </Button>
         </DialogActions>
       </Dialog>
