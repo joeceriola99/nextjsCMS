@@ -11,9 +11,7 @@ export default function orderNow(props) {
       <Header />
       <Container maxWidth="lg">
         <NavBar />
-        <Typography>
-          <Card />
-        </Typography>
+        <Card />
       </Container>
     </>
   );
