@@ -30,6 +30,7 @@
     "react-material-ui-carousel": "^2.2.4",
     "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.2.0",
+    "react-toastify": "^7.0.4",
     "styled-components": "5.2.1",
     "yup": "^0.32.9"
   },

@@ -89,6 +89,7 @@ export default function CustomizedDialogs(props) {
   const [itemCount, setItemCount] = useState(1);
   const [modifierOptionName, setModifierOptionName] = useState();
   const [cookies, setCookie, removeCookie] = useCookies(['product']);
+  const [extraCost, setExtraCost] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
@@ -97,9 +98,14 @@ export default function CustomizedDialogs(props) {
     setOpen(false);
   };
 
-  const handleChange = (event) => {
-    console.log(state);
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const handleChange = (event, cost) => {
+    let val = 0;
+    if (event.target.checked == true) {
+      val = +extraCost + +cost;
+    } else {
+      val = +extraCost - +cost;
+    }
+    setExtraCost(numberFormatter(+val));
   };
 
   const handleCheckOut = (id, count) => {
@@ -166,7 +172,9 @@ export default function CustomizedDialogs(props) {
                       return (
                         <div>
                           <FormControlLabel
-                            control={<Checkbox onChange={handleChange} name={data.itemDescription} />}
+                            control={
+                              <Checkbox onChange={(e) => handleChange(e, data.mod_price)} name={data.itemDescription} />
+                            }
                             label={data.itemDescription}
                           />
                           <FormLabel>${numberFormatter(data.mod_price)}</FormLabel>
@@ -184,7 +192,7 @@ export default function CustomizedDialogs(props) {
         </DialogContent>
         <DialogActions>
           <DialogContent style={{ paddingLeft: '40px', fontSize: '1.1rem', fontWeight: '600' }}>
-            ${numberFormatter(itemCount * productPrice)}
+            ${numberFormatter(itemCount * (+productPrice + +extraCost))}
           </DialogContent>
           <DialogContent>
             <Typography style={{ borderWidth: 2, borderStyle: 'solid', width: '70%' }}>

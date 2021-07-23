@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Container, Button, Box } from '@material-ui/core';
-import NavBar from '../../components/Navigation/navbar';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { useHistory } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { CollectionsBookmark } from '@material-ui/icons';
 
 export default function checkout(props) {
-  const history = useHistory();
-  const [cookies, setCookie, removeCookie] = useCookies(['product']);
-  const [cartItems, setCartItems] = useState();
-
-  useEffect = () => {
-    // let a = cookies;
-    // console.log(cookies.product);
-  };
 
   return (
     <Container
@@ -34,7 +22,6 @@ export default function checkout(props) {
           width="100%"
           borderRadius="10px"
           padding="1rem"
-          onClick={() => history.push('/select-address')}
           border="1px solid #bebebe"
         >
           {(!true && (
