@@ -1,7 +1,7 @@
 import { Button } from '@paljs/ui/Button';
 import { InputGroup } from '@paljs/ui/Input';
 import { auth } from '../../../firebase';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Auth, { Group } from 'components/Auth';
@@ -20,7 +20,7 @@ export default function Login() {
       .signInWithEmailAndPassword(email, password)
       .then((u) => {
         if (u.user) {
-          toast.success("Logged In Successfully");
+          toast.success('Logged In Successfully');
           router.push('/orderNow');
         }
       })
