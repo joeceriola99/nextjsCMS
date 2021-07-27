@@ -30,7 +30,8 @@ export default function Register() {
           // console.log(u);
           if (u.user) {
             toast.success('Registered Successfully');
-          router.push('/home');
+            router.push('/home');
+            Cookies.set('user', JSON.stringify(data));
           }
         })
         .catch((error) => {

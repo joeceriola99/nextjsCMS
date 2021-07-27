@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Container, Button, Box } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import Cookies from 'js-cookie';
 import RemoveIcon from '@material-ui/icons/Remove';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import moment from 'moment';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
 
 export default function checkout(props) {
-
   return (
     <Container
       style={{
@@ -18,40 +22,30 @@ export default function checkout(props) {
         MY ORDER{' '}
       </Typography>
       <Grid container>
-        <Box
-          width="100%"
-          borderRadius="10px"
-          padding="1rem"
-          border="1px solid #bebebe"
-        >
-          {(!true && (
-            <>
-              <Typography variant="caption" style={{ color: 'gray' }}>
-                Select Address
-              </Typography>
-              <Typography style={{ lineHeight: 1.2 }}>Roy</Typography>
-            </>
-          )) || (
-            <>
-              <Typography style={{ color: 'gray' }} variant="caption">
-                Change address
-              </Typography>
-              <Typography style={{ lineHeight: 1.2 }}>Roy</Typography>
-              <Typography style={{ lineHeight: 1.2 }}>
-                {/* {selectedAddress.address + ', ' + selectedAddress.city + ', ' + selectedAddress.zipCode} */}
-              </Typography>
-              <Typography style={{ lineHeight: 1.2 }}>+91947400000</Typography>
-            </>
-          )}
+        <Box width="100%" borderRadius="10px" padding="1rem" border="1px solid #bebebe">
+          <>
+            <Typography style={{ color: 'gray' }} variant="caption">
+              Change address
+            </Typography>
+            <Typography style={{ lineHeight: 1.2 }}>Roy</Typography>
+            <Typography style={{ lineHeight: 1.2 }}>Block B</Typography>
+            <Typography style={{ lineHeight: 1.2 }}>+91947400000</Typography>
+          </>
         </Box>
       </Grid>
-      <Box height="1rem" />
-      <Grid container spacing={1}>
-        <Typography style={{ textAlign: 'center', width: '100%', color: '#bebebe' }} variant="h6">
-          NO ITEMS IN CHECK!
-        </Typography>
 
+      <Grid container spacing={1}>
         {[
+          {
+            image:
+              'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-homemade-pizza-horizontal-1542312378.png?crop=1.00xw:1.00xh;0,0&resize=480:*',
+            productName: 'abc',
+          },
+          {
+            image:
+              'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-homemade-pizza-horizontal-1542312378.png?crop=1.00xw:1.00xh;0,0&resize=480:*',
+            productName: 'abc',
+          },
           {
             image:
               'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-homemade-pizza-horizontal-1542312378.png?crop=1.00xw:1.00xh;0,0&resize=480:*',
@@ -59,13 +53,13 @@ export default function checkout(props) {
           },
         ].map((item) => {
           return (
-            <React.Fragment key={item.image}>
+            <>
               <Grid item xs={2}>
                 <Box display="flex" justifyContent="center">
                   <img src={item.image} style={{ width: '100%', borderRadius: '10px' }} />
                 </Box>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={6}>
                 <Typography variant="subtitle2">{item.productName}</Typography>
                 <Typography variant="caption">$10</Typography>
               </Grid>
@@ -78,11 +72,13 @@ export default function checkout(props) {
                   </Box>
                 </Grid>
               </Grid>
-            </React.Fragment>
+            </>
           );
         })}
       </Grid>
-      <Box height="1rem" />
+
+      {/* Tips and Prom Code */}
+
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Grid container alignItems="center">
@@ -90,15 +86,14 @@ export default function checkout(props) {
               <span style={{ fontWeight: 800 }}>Tips</span> $100
             </Typography>
 
-            <Button
-              style={{
-                textTransform: 'none',
-                color: 'gray',
-                fontSize: '0.8rem',
-              }}
-            >
-              Change
-            </Button>
+            <Button style={{ textTransform: 'none', color: 'gray', fontSize: '0.8rem' }}>Change</Button>
+          </Grid>
+          <Grid container alignItems="center">
+            <Typography style={{ fontWeight: 800 }}>Promo Code</Typography>
+            <Box display="flex" alignItems="center">
+              <Typography style={{ marginRight: '6px' }}>Proom</Typography>
+              <RemoveCircleIcon style={{ color: 'red' }} fontSize="small" />
+            </Box>
           </Grid>
         </Grid>
         <Grid item xs={6}>
@@ -116,6 +111,44 @@ export default function checkout(props) {
           </Grid>
         </Grid>
       </Grid>
+
+      {/* Message To Kitchen */}
+
+      <Typography gutterBottom style={{ fontWeight: 800 }}>
+        Message to Kitchen
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <FormControl>
+            <Input placeholder="Enter special instructions"></Input>
+          </FormControl>
+        </Grid>
+      </Grid>
+      {/* Emter Promo  Code */}
+
+      <Typography gutterBottom style={{ fontWeight: 800 }}>
+        Promo Code
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <FormControl>
+            <Input placeholder="Enter you promo Code"></Input>
+          </FormControl>
+        </Grid>
+      </Grid>
+
+      {/* Delivery Option */}
+
+      <Grid container alignItems="center">
+        <Typography style={{ fontWeight: 800 }} variant="subtitle1">
+          Selected Service Option
+        </Typography>
+        <Button style={{ textTransform: 'none', color: 'gray' }}>Change</Button>
+      </Grid>
+      <Typography> Pickup : {moment(Date.now()).format('MMMM DD, YYYY H:mm a')}</Typography>
+
+      {/* ORDER Button */}
+
       <Box bottom="0px" left="0px" width="100%">
         <Button
           style={{

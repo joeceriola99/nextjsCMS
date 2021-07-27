@@ -9,6 +9,7 @@ import Badge from '@material-ui/core/Badge';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Cookies from 'js-cookie';
 
 export default function AdminNavigation(props) {
   const router = useRouter();
@@ -22,23 +23,35 @@ export default function AdminNavigation(props) {
     },
   }))(Badge);
 
+  const cartHandler = () => {
+    let data = Cookies.get('userID');
+    console.log(data);
+    if (data) {
+      router.push('/checkout');
+    } else {
+      router.push('auth/login');
+    }
+  };
+
   return (
     <React.Fragment>
       <AppBar position="sticky" elevation={0} color="inherit">
-        <Toolbar>
+        <Toolbar style={{width:"100%"}}>
           <Box flexGrow={1} py={1}>
             <Box>
               <Image src={'/LogoAjSlider.png'} height={30} width={150} alt="AJ SLider" />
             </Box>
           </Box>
+          <div style={{marginLeft:"auto"}}>
           <Button onClick={() => router.push('/home')}>Home</Button>
           <Button onClick={() => router.push('/orderNow')}>Order Now</Button>
           <Button>About Us</Button>
           <Button>Contact Us</Button>
+          </div>
           <div>
             <IconButton aria-label="cart">
               <StyledBadge badgeContent={0} color="secondary">
-                <ShoppingCartIcon onClick={() => router.push('/checkout')} />
+                <ShoppingCartIcon onClick={cartHandler} />
               </StyledBadge>
             </IconButton>
           </div>

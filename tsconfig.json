@@ -30,5 +30,5 @@
     "**/*.tsx",
     "src/pages/admin/cms/modules/custom-html/[id]/index.jsx",
     "src/pages/admin/cms/modules/gallery/[id]/index.jsx"
-  ]
+, "src/components/Forms/Input.jsx"  ]
 }

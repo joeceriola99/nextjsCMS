@@ -9,6 +9,7 @@ import Socials from 'components/Auth/Socials';
 import Layout from 'Layouts';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const router = useRouter();
@@ -22,6 +23,8 @@ export default function Login() {
         if (u.user) {
           toast.success('Logged In Successfully');
           router.push('/orderNow');
+          Cookies.set('userID', JSON.stringify(u.user.uid));
+          Cookies.set('userEmail', JSON.stringify(u.user.email));
         }
       })
       .catch((error) => {

@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import { Grid, Collapse } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { Card, CardHeader, CardMedia, CardContent, CardActions } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-// import AddSharpIcon from '@material-ui/icons/AddSharp';
 import OrderModal from './orderModal';
-import { db } from '../../../firebase';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -44,28 +41,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props) {
   const classes = useStyles();
-  const [products, setProducts] = useState(null);
   const [open, setOpen] = useState(false);
-
-  useEffect(async () => {
-    console.log('use effect');
-    let array = [];
-    const productData = await db.collection('products').get();
-    productData.docs.map((doc) => {
-      let formatData = doc.data();
-      array.push(formatData);
-    });
-    let finalData = array.filter((modifier) => modifier.IsModifier == 'False' && modifier.price > 0);
-    setProducts(finalData);
-  }, []);
+  console.log('use effect card page', props);
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        {products &&
-          products.map((data, index) => {
+        {props.products &&
+          props.products.map((data, index) => {
             const url = 'https://ajsliders.com/images/' + data.FileName;
             const price = '$' + data.ItemCost;
             // console.log(data.ItemID);

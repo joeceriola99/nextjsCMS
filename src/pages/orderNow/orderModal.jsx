@@ -18,7 +18,8 @@ import numberFormatter from '../../utils/numberFormatter';
 import { db } from '../../../firebase';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const styles = (theme) => ({
   root: {
@@ -79,8 +80,8 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs(props) {
+  const router = useRouter();
   const classes = stylesMain();
-  const [state, setState] = useState(null);
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState(false);
   const [product, setProduct] = useState(null);
@@ -88,7 +89,6 @@ export default function CustomizedDialogs(props) {
   const [modifiers, setModifiers] = useState([]);
   const [itemCount, setItemCount] = useState(1);
   const [modifierOptionName, setModifierOptionName] = useState();
-  const [cookies, setCookie, removeCookie] = useCookies(['product']);
   const [extraCost, setExtraCost] = useState(0);
 
   const handleOpen = () => {
@@ -108,15 +108,21 @@ export default function CustomizedDialogs(props) {
     setExtraCost(numberFormatter(+val));
   };
 
-  const handleCheckOut = (id, count) => {
-    let products = [];
-    if (cookies.product) {
-      products = cookies.product;
-      console.log(products);
+  const handleCheckOut = (id, count, totalVal) => {
+    let userid = Cookies.get('userID');
+    let data = {
+      userID: userid,
+      cartDetails: {
+        productID: id,
+        quantity: count,
+        cost: totalVal,
+      },
+    };
+    if (userid) {
+      const res = db.collection('cart').doc(JSON.parse(userid)).set(data);
+    } else {
+      router.push('auth/login');
     }
-    products.push({ productId: id, quantity: count });
-    setCookie('product', products);
-    setOpen(false);
   };
 
   const itemAdd = () => {
@@ -205,7 +211,13 @@ export default function CustomizedDialogs(props) {
               </Button>
             </Typography>
           </DialogContent>
-          <Button autoFocus onClick={() => handleCheckOut(product?.ItemID, itemCount)} color="primary">
+          <Button
+            autoFocus
+            onClick={() =>
+              handleCheckOut(product?.ItemID, itemCount, numberFormatter(itemCount * (+productPrice + +extraCost)))
+            }
+            color="primary"
+          >
             Add to Check
           </Button>
         </DialogActions>
