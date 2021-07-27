@@ -54,7 +54,7 @@ export default function orderNow(props) {
       <Header cart={cartProducts} />
       <Container maxWidth="lg">
         <NavBar handlerClick={categoryHandler} categoriesList={categories} />
-        <Typography>{products && <Card products={products} />}</Typography>
+        <Typography>{products && <Card products={products} handler={cartHandler} />}</Typography>
       </Container>
     </>
   );
