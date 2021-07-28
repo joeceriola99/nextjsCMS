@@ -1,44 +1,91 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { db } from '../../../firebase';
 
 export default function checkout(props) {
+  const [cartData, setCartData] = useState();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    // let finalData = [];
+    // console.log(JSON.parse(Cookies.get('cartData')));
+    // let array = JSON.parse(Cookies.get('cartData'));
+    // // setCartData(JSON.parse(Cookies.get('cartData')));
+    // await array.map(async (data) => {
+    //   let docRef = await db.collection('products').doc(data.productID);
+    //   await docRef
+    //     .get()
+    //     .then((doc) => {
+    //       if (doc.exists) {
+    //         let insertData = { ...data, ...doc.data() };
+    //         console.log('data to be inserted', insertData);
+    //         finalData.push(insertData);
+    //         console.log('the final data to be set in state', finalData);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log('Error getting document:', error);
+    //     });
+    // });
+    // await setCartData(finalData);
+    let a = await _getSyncData();
+    console.log('Daaraa', [...a]);
+  };
+
+  function _getSyncData() {
+    let finalData = [];
+    console.log(JSON.parse(Cookies.get('cartData')));
+    let array = JSON.parse(Cookies.get('cartData'));
+
+    return new Promise((resolve, reject) => {
+      array.map((data) => {
+        let docRef = db.collection('products').doc(data.productID);
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              let insertData = { ...data, ...doc.data() };
+              console.log('data to be inserted', insertData);
+              finalData.push(insertData);
+              console.log('the final data to be set in state', finalData);
+            }
+          })
+          .catch((error) => {
+            console.log('Error getting document:', error);
+          });
+      });
+      return resolve(finalData);
+      // return reject('error');
+    });
+  }
+
+  console.log('HHH', cartData);
   return (
     <div className="container text-center">
       <div className="col-md-12 col-sm-12">
         <ul>
           <li className="row columnCaptions">
-            <div>ITEM</div>
             <div>QTY</div>
+            <div>ITEM</div>
             <div>Price</div>
           </li>
-          <li className="row">
-            <div className="quantity">1</div>
-            <div className="itemName">Birthday Cake</div>
-
-            <div className="price">$49.95</div>
-          </li>
-          <li className="row">
-            <div className="quantity">50</div>
-            <div className="itemName">Party Cups</div>
-
-            <div className="price">$5.00</div>
-          </li>
-          <li className="row">
-            <div className="quantity">20</div>
-            <div className="itemName">Beer kegs</div>
-
-            <div className="price">$919.99</div>
-          </li>
-          <li className="row">
-            <div className="quantity">18</div>
-            <div className="itemName">Pound of beef</div>
-
-            <div className="price">$269.45</div>
-          </li>
-          <li className="row">
-            <div className="quantity">1</div>
-            <div className="itemName">Bullet-proof vest</div>
-            <div className="price">$450.00</div>
-          </li>
+          {cartData?.length != 0 ? (
+            cartData?.map((data) => {
+              console.log('Cart Data Mapped', data);
+              return (
+                <li key={data.productID} className="row">
+                  <div className="quantity">{data.quantity}</div>
+                  <div className="itemName">{data.ItemDescription}</div>
+                  <div className="price">${data.cost}</div>
+                </li>
+              );
+            })
+          ) : (
+            <h1>No Items In Cart</h1>
+          )}
           <li className="row totals">
             <div className="itemName">Total:</div>
             <div className="price">$1694.43</div>

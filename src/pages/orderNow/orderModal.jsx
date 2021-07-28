@@ -119,7 +119,39 @@ export default function CustomizedDialogs(props) {
       },
     };
     if (userid) {
-      const res = db.collection('cart').doc(JSON.parse(userid)).set(data);
+      if (Cookies.get('cartData')) {
+        console.log('IF PART CART DATA EXISTS');
+        let existingData = JSON.parse(Cookies.get('cartData'));
+        console.log(existingData);
+        let insert = {
+          productID: id,
+          quantity: count,
+          cost: totalVal,
+        };
+        existingData.push(insert);
+        console.log(existingData);
+        JSON.stringify(Cookies.set('cartData', existingData));
+        handleClose();
+      } else {
+        console.log('else PART CART DATA DOESNT EXISTS');
+        console.log(
+          JSON.stringify({
+            productID: id,
+            quantity: count,
+            cost: totalVal,
+          }),
+        );
+        JSON.stringify(
+          Cookies.set('cartData', [
+            {
+              productID: id,
+              quantity: count,
+              cost: totalVal,
+            },
+          ]),
+        );
+        handleClose();
+      }
     } else {
       router.push('auth/login');
     }
