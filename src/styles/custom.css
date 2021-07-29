@@ -331,14 +331,25 @@ a:hover {
 }
 
 /* Design From Rakesh */
+.button {
+  border: none;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .myOrderSec {
-  max-width: 1420px;
   width: 100%;
   margin: auto;
 }
 .mainOrderSec {
   padding: 15px;
-  border: 1px solid;
 }
 .myOrderChangeOrder {
   border: 1px solid;
@@ -465,7 +476,7 @@ a:hover {
   right: 5px;
   top: 50%;
   transform: translate(0, -50%);
-  border: 1px solid;
+  border: none;
   background: transparent;
 }
 .placeOrderBtn {

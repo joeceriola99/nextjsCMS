@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import Cookies from 'js-cookie';
+import { Box } from '@material-ui/core';
+
 export default function checkout(props) {
+  const [cartData, setCartData] = useState();
+
+  useEffect(() => {
+    console.log(JSON.parse(Cookies.get('cartData')));
+    setCartData(JSON.parse(Cookies.get('cartData')));
+  }, []);
+
   return (
     <div>
       <div className="myOrderSec">
+        <h3>My Order</h3>
         <div className="mainOrderSec">
-          <h3>My Order</h3>
           <div className="myOrderChangeOrder">
             <p>Change Address</p>
             <ul>
@@ -16,17 +26,30 @@ export default function checkout(props) {
             </ul>
           </div>
           <div className="orderWithQnt">
-            <div className="currentOrderImage"></div>
-            <div className="currentOrderProduct">
-              <p>BBQ Chicken Slider</p>
-              <p>$3.00</p>
-            </div>
-            <div className="currentOrderQnt">
-              <div>
-                <RemoveRoundedIcon />1<AddRoundedIcon />
+            <div className="cartItems">
+              <div className="currentOrderImage"></div>
+              <div className="currentOrderProduct">
+                <p>BBQ Chicken Slider</p>
+                <p>$3.00</p>
+              </div>
+              <div className="currentOrderQnt">
+                <div>
+                  <RemoveRoundedIcon />1<AddRoundedIcon />
+                </div>
+              </div>
+              <div className="currentOrderImage"></div>
+              <div className="currentOrderProduct">
+                <p>BBQ Chicken Slider</p>
+                <p>$3.00</p>
+              </div>
+              <div className="currentOrderQnt">
+                <div>
+                  <RemoveRoundedIcon />1<AddRoundedIcon />
+                </div>
               </div>
             </div>
           </div>
+
           <div className="promoWithTotal">
             <div className="promoWithTips">
               <ul>
@@ -34,12 +57,9 @@ export default function checkout(props) {
                   <b>Promo Code</b> 10OFFSale
                 </li>
                 <li>
-                  <b>Tips</b> $5.00 <small>Change Tips</small>
+                  <b>Tips</b> $5.00 <button className="button">Change Tips</button>
                 </li>
               </ul>
-
-              <p></p>
-              <p></p>
             </div>
             <div className="totalWithTax">
               <ul>
@@ -56,23 +76,18 @@ export default function checkout(props) {
             </div>
           </div>
           <div className="orderMessage">
-            <p>
               <b>Message to Kitchen!</b>
-            </p>
-            <textarea className>I want my chicken well done</textarea>
+            <textarea defaultValue="I want my order well packed" />
           </div>
 
           <div className="selectedSecviceOptn">
-            <p>
-              <b>Selected Service Option</b> <span>Change</span>
-            </p>
+              <b>Selected Service Option</b>
+              <button className="button">Change</button>
             <p>Delivery -April 5,2021,9.30AM CST</p>
           </div>
 
           <div className="typesOfPayment">
-            <p>
               <b>Types of Payment</b>
-            </p>
             <ul>
               <li>Credit Cards</li>
               <li>Gift Cards</li>
@@ -81,18 +96,12 @@ export default function checkout(props) {
           </div>
 
           <div className="modeOfPayment">
-            <p>
-              <b>Selected Mod of Payment</b>
-            </p>
-            <p>
+              <b>Selected Mode of Payment</b>
               Credit Card - <span>xxxxxxxxxx 2982</span>
-            </p>
           </div>
 
           <div className="promoCode">
-            <p>
               <b>Promo Code</b>
-            </p>
             <div style={{ position: 'relative' }}>
               <input type="text" />
               <button className="promoApplyBtn">Apply</button>

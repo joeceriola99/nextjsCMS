@@ -108,43 +108,29 @@ export default function CustomizedDialogs(props) {
     setExtraCost(numberFormatter(+val));
   };
 
-  const handleCheckOut = (id, count, totalVal) => {
+  const handleCheckOut = (id, url, title, count, totalVal) => {
     let userid = Cookies.get('userID');
-    let data = {
-      userID: userid,
-      cartDetails: {
-        productID: id,
-        quantity: count,
-        cost: totalVal,
-      },
-    };
+    console.log(url, title);
     if (userid) {
       if (Cookies.get('cartData')) {
-        console.log('IF PART CART DATA EXISTS');
         let existingData = JSON.parse(Cookies.get('cartData'));
-        console.log(existingData);
         let insert = {
           productID: id,
+          productName: title,
+          url: url,
           quantity: count,
           cost: totalVal,
         };
         existingData.push(insert);
-        console.log(existingData);
         JSON.stringify(Cookies.set('cartData', existingData));
         handleClose();
       } else {
-        console.log('else PART CART DATA DOESNT EXISTS');
-        console.log(
-          JSON.stringify({
-            productID: id,
-            quantity: count,
-            cost: totalVal,
-          }),
-        );
         JSON.stringify(
           Cookies.set('cartData', [
             {
               productID: id,
+              productName: title,
+              url: url,
               quantity: count,
               cost: totalVal,
             },
@@ -246,7 +232,13 @@ export default function CustomizedDialogs(props) {
           <Button
             autoFocus
             onClick={() =>
-              handleCheckOut(product?.ItemID, itemCount, numberFormatter(itemCount * (+productPrice + +extraCost)))
+              handleCheckOut(
+                product?.ItemID,
+                url,
+                product?.title,
+                itemCount,
+                numberFormatter(itemCount * (+productPrice + +extraCost)),
+              )
             }
             color="primary"
           >

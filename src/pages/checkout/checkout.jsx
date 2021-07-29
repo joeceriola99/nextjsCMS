@@ -1,96 +1,140 @@
 import React, { useEffect, useState } from 'react';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Cookies from 'js-cookie';
-import { db } from '../../../firebase';
+import numberFormatter from '../../utils/numberFormatter';
 
 export default function checkout(props) {
   const [cartData, setCartData] = useState();
+  const [tips, setTips] = useState(5);
+  const [subtotal, setSubtotal] = useState();
+  const [tax, setTax] = useState(10);
+  const [total, setTotal] = useState();
+  const [promoCode, setPromoCode] = useState();
+  const [finalPromo, setFinalPromo] = useState('No Promo Applied');
 
   useEffect(() => {
-    getData();
+    console.log(JSON.parse(Cookies.get('cartData')));
+    setCartData(JSON.parse(Cookies.get('cartData')));
+    getCartTotalValue();
   }, []);
 
-  const getData = async () => {
-    // let finalData = [];
-    // console.log(JSON.parse(Cookies.get('cartData')));
-    // let array = JSON.parse(Cookies.get('cartData'));
-    // // setCartData(JSON.parse(Cookies.get('cartData')));
-    // await array.map(async (data) => {
-    //   let docRef = await db.collection('products').doc(data.productID);
-    //   await docRef
-    //     .get()
-    //     .then((doc) => {
-    //       if (doc.exists) {
-    //         let insertData = { ...data, ...doc.data() };
-    //         console.log('data to be inserted', insertData);
-    //         finalData.push(insertData);
-    //         console.log('the final data to be set in state', finalData);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log('Error getting document:', error);
-    //     });
-    // });
-    // await setCartData(finalData);
-    let a = await _getSyncData();
-    console.log('Daaraa', [...a]);
+  const getCartTotalValue = () => {
+    let cartDetail = JSON.parse(Cookies.get('cartData'));
+    let sum = 0;
+    cartDetail.map((data) => {
+      sum = sum + parseFloat(data.cost);
+      console.log(sum);
+    });
+    setSubtotal(sum);
+    setTotal(sum + (tax / 100) * sum);
   };
 
-  function _getSyncData() {
-    let finalData = [];
-    console.log(JSON.parse(Cookies.get('cartData')));
-    let array = JSON.parse(Cookies.get('cartData'));
-
-    return new Promise((resolve, reject) => {
-      array.map((data) => {
-        let docRef = db.collection('products').doc(data.productID);
-        docRef
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              let insertData = { ...data, ...doc.data() };
-              console.log('data to be inserted', insertData);
-              finalData.push(insertData);
-              console.log('the final data to be set in state', finalData);
-            }
-          })
-          .catch((error) => {
-            console.log('Error getting document:', error);
-          });
-      });
-      return resolve(finalData);
-      // return reject('error');
-    });
-  }
-
-  console.log('HHH', cartData);
   return (
-    <div className="container text-center">
-      <div className="col-md-12 col-sm-12">
-        <ul>
-          <li className="row columnCaptions">
-            <div>QTY</div>
-            <div>ITEM</div>
-            <div>Price</div>
-          </li>
-          {cartData?.length != 0 ? (
-            cartData?.map((data) => {
-              console.log('Cart Data Mapped', data);
-              return (
-                <li key={data.productID} className="row">
-                  <div className="quantity">{data.quantity}</div>
-                  <div className="itemName">{data.ItemDescription}</div>
-                  <div className="price">${data.cost}</div>
+    <div>
+      <div className="myOrderSec">
+        <h3>My Order</h3>
+        <div className="mainOrderSec">
+          <div className="myOrderChangeOrder">
+            <p>Change Address</p>
+            <ul>
+              <li>Joe Cerioia</li>
+              <li>B23 L34 Avida Settings</li>
+              <li>09193805423</li>
+            </ul>
+          </div>
+          <div className="orderWithQnt">
+            <div className="cartItems">
+              {cartData && cartData.length != 0
+                ? cartData.map((data) => {
+                    console.log(data);
+                    return (
+                      <>
+                        <div className="currentOrderImage">
+                          <img src={data.url} />
+                        </div>
+                        <div className="currentOrderProduct">
+                          <p>{data.productName}</p>
+                          <p>{data.cost}</p>
+                        </div>
+                        <div className="currentOrderQnt">
+                          <div>
+                            <RemoveRoundedIcon />
+                            {data.quantity}
+                            <AddRoundedIcon />
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })
+                : null}
+            </div>
+          </div>
+
+          <div className="promoWithTotal">
+            <div className="promoWithTips">
+              <ul>
+                <li>
+                  <b>Promo Code</b> {finalPromo}
                 </li>
-              );
-            })
-          ) : (
-            <h1>No Items In Cart</h1>
-          )}
-          <li className="row totals">
-            <div className="itemName">Total:</div>
-            <div className="price">$1694.43</div>
-          </li>
-        </ul>
+                <li>
+                  <b>Tips</b>
+                  <input type="number" step={5} defaultValue={5} onChange={(e) => setTips(e.target.value)}></input>
+                </li>
+              </ul>
+            </div>
+            <div className="totalWithTax">
+              <ul>
+                <li>
+                  <b>Subtotal</b> <span>${subtotal}</span>
+                </li>
+                <li>
+                  <b>Tax</b> <span>{tax}%</span>
+                </li>
+                <li>
+                  <b>Total</b> <span>${parseFloat(total) + parseFloat(tips)}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="orderMessage">
+            <b>Message to Kitchen!</b>
+            <textarea defaultValue="I want my order well packed" />
+          </div>
+
+          <div className="selectedSecviceOptn">
+            <b>Selected Service Option</b>
+            <button className="button">Change</button>
+            <p>Delivery -April 5,2021,9.30AM CST</p>
+          </div>
+
+          <div className="typesOfPayment">
+            <b>Types of Payment</b>
+            <ul>
+              <li>Credit Cards</li>
+              <li>Gift Cards</li>
+              <li>Rewards</li>
+            </ul>
+          </div>
+
+          <div className="modeOfPayment">
+            <b>Selected Mode of Payment</b>
+            Credit Card - <span>xxxxxxxxxx 2982</span>
+          </div>
+
+          <div className="promoCode">
+            <b>Promo Code</b>
+            <div style={{ position: 'relative' }}>
+              <input type="text" onChange={(e) => setPromoCode(e.target.value)} />
+              <button className="promoApplyBtn" onClick={() => setFinalPromo(promoCode)}>
+                Apply
+              </button>
+            </div>
+          </div>
+          <div className="placeOrder">
+            <button className="placeOrderBtn">Place Order</button>
+          </div>
+        </div>
       </div>
     </div>
   );
