@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Cookies from 'js-cookie';
-import numberFormatter from '../../utils/numberFormatter';
 
 export default function checkout(props) {
   const [cartData, setCartData] = useState();
@@ -67,7 +66,7 @@ export default function checkout(props) {
                       </>
                     );
                   })
-                : null}
+                : 'No Data'}
             </div>
           </div>
 
@@ -86,20 +85,20 @@ export default function checkout(props) {
             <div className="totalWithTax">
               <ul>
                 <li>
-                  <b>Subtotal</b> <span>${subtotal}</span>
+                  <b>Subtotal</b> <span>${subtotal.toFixed(2)}</span>
                 </li>
                 <li>
                   <b>Tax</b> <span>{tax}%</span>
                 </li>
                 <li>
-                  <b>Total</b> <span>${parseFloat(total) + parseFloat(tips)}</span>
+                  <b>Total</b> <span>${parseFloat(total) + parseFloat(tips).toFixed(2)}</span>
                 </li>
               </ul>
             </div>
           </div>
           <div className="orderMessage">
             <b>Message to Kitchen!</b>
-            <textarea defaultValue="I want my order well packed" />
+            <textarea defaultValue="I want my order well packed." />
           </div>
 
           <div className="selectedSecviceOptn">

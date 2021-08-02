@@ -22,7 +22,7 @@ export default function Login() {
       .then((u) => {
         if (u.user) {
           toast.success('Logged In Successfully');
-          router.push('/orderNow');
+          setTimeout(() => router.push('/orderNow'),2000);
           Cookies.set('userID', JSON.stringify(u.user.uid));
           Cookies.set('userEmail', JSON.stringify(u.user.email));
         }

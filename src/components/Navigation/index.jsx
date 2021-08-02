@@ -10,9 +10,12 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 
 export default function AdminNavigation(props) {
   const router = useRouter();
+
+  const { cartCount } = useSelector((state) => state.cartData);
 
   const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -35,28 +38,49 @@ export default function AdminNavigation(props) {
 
   return (
     <React.Fragment>
-      <AppBar position="sticky" elevation={0} color="inherit">
-        <Toolbar style={{width:"100%"}}>
-          <Box flexGrow={1} py={1}>
-            <Box>
-              <Image src={'/LogoAjSlider.png'} height={30} width={150} alt="AJ SLider" />
-            </Box>
-          </Box>
-          <div style={{marginLeft:"auto"}}>
-          <Button onClick={() => router.push('/home')}>Home</Button>
-          <Button onClick={() => router.push('/orderNow')}>Order Now</Button>
-          <Button>About Us</Button>
-          <Button>Contact Us</Button>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <Image src={'/LogoAjSlider.png'} height={30} width={150} alt="AJ SLider" />
+        <div style={{ marginLeft: 'auto' }}>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item active">
+                <a className="nav-link" href="#" onClick={() => router.push('/home')}>
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={() => router.push('/orderNow')}>
+                  Order Now
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Contact Us
+                </a>
+              </li>
+              <li className="nav-item">
+                <IconButton aria-label="cart">
+                  <StyledBadge badgeContent={cartCount} color="secondary">
+                    <ShoppingCartIcon onClick={cartHandler} />
+                  </StyledBadge>
+                </IconButton>
+              </li>
+            </ul>
           </div>
-          <div>
-            <IconButton aria-label="cart">
-              <StyledBadge badgeContent={0} color="secondary">
-                <ShoppingCartIcon onClick={cartHandler} />
-              </StyledBadge>
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+        </div>
+      </nav>
     </React.Fragment>
   );
 }

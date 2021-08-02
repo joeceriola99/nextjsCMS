@@ -20,6 +20,10 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { addtoCart } from '../../redux/cart';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = (theme) => ({
   root: {
@@ -82,6 +86,7 @@ const DialogActions = withStyles((theme) => ({
 export default function CustomizedDialogs(props) {
   const router = useRouter();
   const classes = stylesMain();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState(false);
   const [product, setProduct] = useState(null);
@@ -123,7 +128,9 @@ export default function CustomizedDialogs(props) {
         };
         existingData.push(insert);
         JSON.stringify(Cookies.set('cartData', existingData));
+        dispatch(addtoCart(count));
         handleClose();
+        toast.success('Added to cart');
       } else {
         JSON.stringify(
           Cookies.set('cartData', [
@@ -136,7 +143,9 @@ export default function CustomizedDialogs(props) {
             },
           ]),
         );
+        dispatch(addtoCart(count));
         handleClose();
+        toast.success('Added to cart');
       }
     } else {
       router.push('auth/login');
@@ -174,6 +183,14 @@ export default function CustomizedDialogs(props) {
 
   return (
     <div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={true}
+        closeOnClick
+        draggable
+        pauseOnHover
+      />
       <AddCircleOutline onClick={handleOpen} />
 
       {/* CUSTOMISED MODAL */}
