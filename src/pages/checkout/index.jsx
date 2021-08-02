@@ -8,7 +8,7 @@ export default function checkout(props) {
   return (
     <>
       <Header />
-      <Container maxWidth="lg">
+      <Container>
         <NavBar />
         <Checkout />
       </Container>

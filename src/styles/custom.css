@@ -341,12 +341,12 @@ a:hover {
 }
 .cartItems {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   width: 100%;
+  margin-bottom: 12px;
 }
 .myOrderSec {
   width: 100%;
-  margin: auto;
 }
 .mainOrderSec {
   padding: 15px;
@@ -364,9 +364,9 @@ a:hover {
   margin: 0;
 }
 .orderWithQnt {
-  display: flex;
+  /* display: flex; */
   width: 100%;
-  margin-top: 15px;
+  /* margin-bottom: 15px; */
 }
 .currentOrderImage {
   width: 80px;
@@ -451,14 +451,14 @@ a:hover {
 }
 .typesOfPayment p {
   margin: 0;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .modeOfPayment p {
   margin: 0;
 }
 .promoCode {
   position: relative;
-  padding: 0 10px;
+  /* padding: 0 10px; */
 }
 
 .promoCode p {
@@ -482,9 +482,52 @@ a:hover {
 .placeOrderBtn {
   border: 1px solid;
   width: 100%;
-  padding: 7px 0;
+  padding: 10px 0;
   background: transparent;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 8px;
+  font-size: 17px;
+}
+
+/* Rakesh's Css */
+.orderMultiSec {
+  display: flex;
+  border: 1px solid;
+  padding: 30px;
+  color: black;
+  margin-bottom: 15px;
+}
+.myOrderSec {
+  width: 60%;
+}
+.myOrderRightSec {
+  width: 40%;
+}
+.orderMainLeftSec,
+.myOrderRightSec {
+  padding: 20px;
+}
+.myOrderRightSec {
+  border: 1px solid;
+}
+
+nav.navbar{
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: inherit;
+  z-index: 9999;
+}
+
+@media only screen and (min-width: 1280px) {
+  .MuiContainer-maxWidthLg {
+    max-width: initial !important;
+  }
+}
+@media only screen and (max-width: 1280px){
+  .myOrderSec,.myOrderRightSec,.orderMultiSec{
+    width: 100%;
+    display: block;
+  }
 }
