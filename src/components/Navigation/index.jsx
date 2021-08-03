@@ -1,9 +1,5 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Box from '@material-ui/core/Box';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -35,6 +31,10 @@ export default function AdminNavigation(props) {
       router.push('auth/login');
     }
   };
+  const [toggleNav, setToggleNav] = useState(false);
+  const toggleMenu = () => {
+    setToggleNav(!toggleNav);
+  };
 
   return (
     <React.Fragment>
@@ -49,11 +49,15 @@ export default function AdminNavigation(props) {
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={toggleMenu}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div
+            className={toggleNav ? 'collapse navbar-collapse navbarToggle' : 'collapse navbar-collapse'}
+            id="navbarNav"
+          >
             <ul className="navbar-nav">
               <li className="nav-item active">
                 <a className="nav-link" href="#" onClick={() => router.push('/home')}>

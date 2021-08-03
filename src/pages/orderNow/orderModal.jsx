@@ -21,7 +21,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { addtoCart } from '../../redux/cart';
+import { setCartCount } from '../../redux/cart';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -128,7 +128,7 @@ export default function CustomizedDialogs(props) {
         };
         existingData.push(insert);
         JSON.stringify(Cookies.set('cartData', existingData));
-        dispatch(addtoCart(count));
+        dispatch(setCartCount(count));
         handleClose();
         toast.success('Added to cart');
       } else {
@@ -143,7 +143,7 @@ export default function CustomizedDialogs(props) {
             },
           ]),
         );
-        dispatch(addtoCart(count));
+        dispatch(setCartCount(count));
         handleClose();
         toast.success('Added to cart');
       }

@@ -1,12 +1,17 @@
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { persistCombineReducers } from 'redux-persist';
-import initialReducer from './initialReducer';
+import cartReducer from './cartReducer';
+import publicReducer from './publicReducer';
+
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartData'],
+  whitelist: ['cartData', 'public'],
 };
+
 const rootReducer = persistCombineReducers(persistConfig, {
-  cartData: initialReducer,
+  cartData: cartReducer,
+  public: publicReducer,
 });
+
 export default rootReducer;
