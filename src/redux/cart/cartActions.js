@@ -1,10 +1,13 @@
 import {
   SET_CART,
+  SET_CART_COUNT,
   SET_TOTAL_PRICE,
   SET_TIP,
   SET_SELECTED_MODE_PAYMENT,
   SET_PROMO_CODE,
-  SET_CART_COUNT,
+  SET_DELIVERY_OPTION,
+  REDUCE_CART_ITEM,
+  ADD_CART_ITEM,
 } from '../actionTypes';
 
 export function setCart(payload) {
@@ -34,9 +37,29 @@ export function setPromoCode(payload) {
 }
 
 export function setCartCount(payload) {
-  console.log("triggered")
   return {
     type: SET_CART_COUNT,
     payload,
   };
 }
+
+export function reduceCartCountofProduct(payload) {
+  return {
+    type: REDUCE_CART_ITEM,
+    payload,
+  };
+}
+
+export function addCartCountofProduct(payload) {
+  return {
+    type: ADD_CART_ITEM,
+    payload,
+  };
+}
+
+export const setDeliveryOption = (payload) => {
+  return {
+    type: SET_DELIVERY_OPTION,
+    payload,
+  };
+};

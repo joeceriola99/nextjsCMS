@@ -7,7 +7,6 @@ import {
   SET_RESTAURANT_PRODUCTS,
   SET_VOICE_PHONE_NUMBER,
   SET_VOICE_DELIVERY,
-  SET_SELECTED_SERVICE_OPTION,
   SET_ORDER_PROCESSING_DATE,
   SET_SELECTED_ADDRESS,
 } from "../actionTypes";
@@ -25,7 +24,6 @@ const initialState = {
   voiceDelivery: false,
   shouldReload: false,
   orderProcessingDate: moment().add(20, "minutes"),
-  orderProcessingType: true, //true pickup delivery false
   selectedAddress: null,
 };
 
@@ -126,13 +124,6 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         voiceDelivery: true,
-      };
-    }
-
-    case SET_SELECTED_SERVICE_OPTION: {
-      return {
-        ...state,
-        orderProcessingType: payload,
       };
     }
 

@@ -9,7 +9,6 @@ import {
   SET_VOICE_PHONE_NUMBER,
   SET_VOICE_DELIVERY,
   SET_SHOULD_RELOAD,
-  SET_SELECTED_SERVICE_OPTION,
   SET_ORDER_PROCESSING_DATE,
   SET_SELECTED_ADDRESS,
 } from "../actionTypes";
@@ -82,12 +81,7 @@ export const setShouldReload = (payload) => {
   };
 };
 
-export const setSelectedServiceOption = (payload) => {
-  return {
-    type: SET_SELECTED_SERVICE_OPTION,
-    payload,
-  };
-};
+
 
 export const setOrderProcessingDate = (payload) => {
   return {

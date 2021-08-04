@@ -21,9 +21,10 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { setCartCount } from '../../redux/cart';
+import { setCartCount, setCart } from '../../redux/cart';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
 
 const styles = (theme) => ({
   root: {
@@ -95,6 +96,7 @@ export default function CustomizedDialogs(props) {
   const [itemCount, setItemCount] = useState(1);
   const [modifierOptionName, setModifierOptionName] = useState();
   const [extraCost, setExtraCost] = useState(0);
+  const { cartItems } = useSelector((state) => state.cartData);
 
   const handleOpen = () => {
     setOpen(true);
@@ -115,38 +117,17 @@ export default function CustomizedDialogs(props) {
 
   const handleCheckOut = (id, url, title, count, totalVal) => {
     let userid = Cookies.get('userID');
-    console.log(url, title);
     if (userid) {
-      if (Cookies.get('cartData')) {
-        let existingData = JSON.parse(Cookies.get('cartData'));
-        let insert = {
-          productID: id,
-          productName: title,
-          url: url,
-          quantity: count,
-          cost: totalVal,
-        };
-        existingData.push(insert);
-        JSON.stringify(Cookies.set('cartData', existingData));
-        dispatch(setCartCount(count));
-        handleClose();
-        toast.success('Added to cart');
-      } else {
-        JSON.stringify(
-          Cookies.set('cartData', [
-            {
-              productID: id,
-              productName: title,
-              url: url,
-              quantity: count,
-              cost: totalVal,
-            },
-          ]),
-        );
-        dispatch(setCartCount(count));
-        handleClose();
-        toast.success('Added to cart');
-      }
+      let insert = {
+        productID: id,
+        productName: title,
+        url: url,
+        quantity: count,
+        cost: totalVal,
+      };
+      dispatch(setCart(insert));
+      dispatch(setCartCount(count));
+      handleClose();
     } else {
       router.push('auth/login');
     }
@@ -254,7 +235,7 @@ export default function CustomizedDialogs(props) {
                 url,
                 product?.title,
                 itemCount,
-                numberFormatter(itemCount * (+productPrice + +extraCost)),
+                numberFormatter((+productPrice + +extraCost)),
               )
             }
             color="primary"

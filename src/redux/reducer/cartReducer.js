@@ -1,3 +1,4 @@
+import { StarRate } from '@material-ui/icons';
 import {
   SET_CART,
   SET_PROMO_CODE,
@@ -5,6 +6,9 @@ import {
   SET_TIP,
   SET_TOTAL_PRICE,
   SET_CART_COUNT,
+  SET_DELIVERY_OPTION,
+  REDUCE_CART_ITEM,
+  ADD_CART_ITEM,
 } from '../actionTypes';
 
 const INITIAL_STATE = {
@@ -14,6 +18,7 @@ const INITIAL_STATE = {
   selectedPayment: null,
   promoCode: null,
   cartCount: 0,
+  deliveryOption: null,
 };
 
 const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -21,7 +26,7 @@ const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
     case SET_CART: {
       return {
         ...state,
-        cartItems: payload,
+        cartItems: [...state.cartItems, payload],
       };
     }
     case SET_TOTAL_PRICE: {
@@ -49,10 +54,35 @@ const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
       };
     }
     case SET_CART_COUNT: {
-      console.log('Cart Count Payload', payload);
       return {
         ...state,
         cartCount: state.cartCount + payload,
+      };
+    }
+    case SET_DELIVERY_OPTION: {
+      return {
+        ...state,
+        deliveryOption: payload,
+      };
+    }
+    case REDUCE_CART_ITEM: {
+      // console.log("REDUCE_CART_ITEM")
+      let myArray = state.cartItems;
+      let objIndex = myArray.findIndex((obj) => obj.productID == payload);
+      // console.log('Before update: ', myArray[objIndex].quantity);
+      myArray[objIndex].quantity = myArray[objIndex].quantity - 1;
+      return {
+        ...state,
+        cartItems: myArray,
+      };
+    }
+    case ADD_CART_ITEM: {
+      let myArray = state.cartItems;
+      let objIndex = myArray.findIndex((obj) => obj.productID == payload);
+      myArray[objIndex].quantity = myArray[objIndex].quantity + 1;
+      return {
+        ...state,
+        cartItems: myArray,
       };
     }
     default:

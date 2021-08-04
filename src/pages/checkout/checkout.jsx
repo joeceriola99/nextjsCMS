@@ -1,33 +1,108 @@
 import React, { useEffect, useState } from 'react';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import Cookies from 'js-cookie';
-import numberFormatter from '../../utils/numberFormatter';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import { Typography, Button, Box, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { useDispatch, useSelector } from 'react-redux';
+import { reduceCartCountofProduct, addCartCountofProduct, setDeliveryOption } from '../../redux/cart';
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+  productMod: {
+    display: 'flex',
+  },
+  formControl: {
+    margin: theme.spacing(3),
+  },
+  formLabel: {
+    color: 'black',
+    fontWeight: 600,
+    height: '20px',
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography>{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
 
 export default function checkout(props) {
-  const [cartData, setCartData] = useState();
   const [tips, setTips] = useState(5);
   const [subtotal, setSubtotal] = useState();
   const [tax, setTax] = useState(10);
   const [total, setTotal] = useState();
   const [promoCode, setPromoCode] = useState();
   const [finalPromo, setFinalPromo] = useState('No Promo Applied');
+  const [open, setOpen] = useState(false);
+  const { cartItems, deliveryOption } = useSelector((state) => state.cartData);
+  const dispatch = useDispatch();
+
+  const removeOneItem = (id) => {
+    dispatch(reduceCartCountofProduct(id));
+  };
+
+  const addOneItem = (id) => {
+    dispatch(addCartCountofProduct(id));
+  };
 
   useEffect(() => {
-    console.log(JSON.parse(Cookies.get('cartData')));
-    setCartData(JSON.parse(Cookies.get('cartData')));
+    console.log('Use Effect Called');
     getCartTotalValue();
-  }, []);
+  }, [removeOneItem]);
 
   const getCartTotalValue = () => {
-    let cartDetail = JSON.parse(Cookies.get('cartData'));
+    let cartDetail = cartItems;
     let sum = 0;
     cartDetail.map((data) => {
-      sum = sum + parseFloat(data.cost);
-      console.log(sum);
+      sum = sum + +data.cost * data.quantity;
     });
-    setSubtotal(sum);
+    setSubtotal(sum.toFixed(2));
     setTotal(sum + (tax / 100) * sum);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const pickUpHandler = () => {
+    dispatch(setDeliveryOption('Pick Up'));
+    setOpen(false);
+  };
+
+  const deliveryHandler = () => {
+    dispatch(setDeliveryOption('Delivery'));
+    setOpen(false);
   };
 
   return (
@@ -35,6 +110,8 @@ export default function checkout(props) {
       <div className="myOrderSec orderMainLeftSec">
         <h3>My Order</h3>
         <div className="mainOrderSec">
+          {/* Address Section  */}
+
           <div className="myOrderChangeOrder">
             <p>Change Address</p>
             <ul>
@@ -44,11 +121,48 @@ export default function checkout(props) {
             </ul>
           </div>
 
+          {/* Delivery Section  */}
+
           <div className="selectedSecviceOptn">
             <b>Selected Service Option</b>
-            <button className="button">Change</button>
-            <p>Delivery -April 5,2021,9.30AM CST</p>
+
+            {/* CUSTOMISED MODAL */}
+            <div>
+              {deliveryOption ? (
+                <button className="button" onClick={handleOpen}>
+                  Change your Option
+                </button>
+              ) : (
+                <button className="button" onClick={handleOpen}>
+                  Choose your Option
+                </button>
+              )}
+
+              <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                  Select a Delivery Options
+                </DialogTitle>
+                <DialogContent dividers>
+                  <Box padding="1rem" position="relative" overflow="auto">
+                    <div className="w-100 d-flex justify-content-center">
+                      <Button variant="contained" onClick={pickUpHandler}>
+                        Pick Up
+                      </Button>
+                      <Button variant="contained" onClick={deliveryHandler}>
+                        Delivery
+                      </Button>
+                    </div>
+                  </Box>
+                </DialogContent>
+              </Dialog>
+            </div>
+
+            {/* CUSTOMISED MODAL  ENDS*/}
+
+            {deliveryOption ? <p>{deliveryOption}</p> : ''}
           </div>
+
+          {/* Payment Section  */}
 
           <div className="typesOfPayment">
             <b>Types of Payment</b>
@@ -68,39 +182,43 @@ export default function checkout(props) {
             </p>
           </div>
 
+          {/* Submit Order Button  */}
+
           <div className="placeOrder">
             <button className="placeOrderBtn">Place Order</button>
           </div>
         </div>
       </div>
+
+      {/* Cart Section  */}
+
       <div className="myOrderRightSec">
         <h3>Cart</h3>
         <div className="orderWithQnt">
-          {cartData && cartData.length != 0
-            ? cartData.map((data) => {
-                console.log(data);
+          {cartItems && cartItems.length != 0
+            ? cartItems.map((data, index) => {
                 return (
                   <>
-                    <div className="cartItems">
+                    <div className="cartItems" key={index}>
                       <div className="currentOrderImage">
                         <img src={data.url} />
                       </div>
                       <div className="currentOrderProduct">
                         <p>{data.productName}</p>
-                        <p>{data.cost}</p>
+                        <p>${data.cost}</p>
                       </div>
                       <div className="currentOrderQnt">
                         <div>
-                          <RemoveRoundedIcon />
+                          <RemoveRoundedIcon onClick={() => removeOneItem(data.productID)} />
                           {data.quantity}
-                          <AddRoundedIcon />
+                          <AddRoundedIcon onClick={() => addOneItem(data.productID)} />
                         </div>
                       </div>
                     </div>
                   </>
                 );
               })
-            : null}
+            : 'No Data In Cart'}
         </div>
         <div className="promoWithTotal">
           <div className="promoWithTips">
@@ -123,7 +241,7 @@ export default function checkout(props) {
                 <b>Tax</b> <span>{tax}%</span>
               </li>
               <li>
-                <b>Total</b> <span>${parseFloat(total) + parseFloat(tips)}</span>
+                <b>Total</b> <span>${Number.parseFloat(total) + Number.parseFloat(tips)}</span>
               </li>
             </ul>
           </div>
