@@ -531,6 +531,7 @@ a:hover {
   padding: 40px;
 }
 nav.navbar {
+  padding: 15px;
   position: sticky;
   top: 0;
   width: 100%;
