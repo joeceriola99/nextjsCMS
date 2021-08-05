@@ -191,6 +191,7 @@ export default function CustomizedDialogs(props) {
               <FormGroup>
                 {modifiers && modifiers
                   ? modifiers.map((data) => {
+                      console.log('Modifier Data', data);
                       return (
                         <div>
                           <FormControlLabel
@@ -235,7 +236,7 @@ export default function CustomizedDialogs(props) {
                 url,
                 product?.title,
                 itemCount,
-                numberFormatter((+productPrice + +extraCost)),
+                numberFormatter(+productPrice + +extraCost),
               )
             }
             color="primary"

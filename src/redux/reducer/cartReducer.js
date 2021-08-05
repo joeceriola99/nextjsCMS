@@ -74,6 +74,7 @@ const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         cartItems: myArray,
+        cartCount: state.cartCount - 1,
       };
     }
     case ADD_CART_ITEM: {
@@ -83,6 +84,7 @@ const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         cartItems: myArray,
+        cartCount: state.cartCount + 1,
       };
     }
     default:

@@ -9,6 +9,14 @@ import { Typography, Button, Box, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduceCartCountofProduct, addCartCountofProduct, setDeliveryOption } from '../../redux/cart';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { db } from '../../../firebase';
+import uniqid from 'uniqid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const styles = (theme) => ({
   root: {
@@ -62,8 +70,10 @@ export default function checkout(props) {
   const [promoCode, setPromoCode] = useState();
   const [finalPromo, setFinalPromo] = useState('No Promo Applied');
   const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
   const { cartItems, deliveryOption } = useSelector((state) => state.cartData);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const removeOneItem = (id) => {
     dispatch(reduceCartCountofProduct(id));
@@ -105,15 +115,39 @@ export default function checkout(props) {
     setOpen(false);
   };
 
+  const orderHandler = () => {
+    var docData = {
+      emailAddress: 'test@gmail.com',
+      name: 'Joe Cerioia',
+      phoneNumber: '09193805423',
+      address: 'B23 L34 Avida Settings',
+      modeofPayment: { type: 'Credit Card', info: ' 4568150022882982' },
+      serviceOption: deliveryOption,
+      orderData: cartItems,
+      tips: tips,
+      orderTotal: total,
+      // promoCode: promoCode,
+      message: 'I want my order well packed.',
+    };
+    db.collection('orders')
+      .doc(uniqid())
+      .set(docData)
+      .then(() => {
+        toast.success('Order Placed Successfully');
+        setTimeout(() => router.push('/home'), 1500);
+      });
+  };
+
   return (
     <div className="orderMultiSec">
+      <ToastContainer autoClose={5000} hideProgressBar={true} closeOnClick draggable pauseOnHover />
       <div className="myOrderSec orderMainLeftSec">
         <h3>My Order</h3>
         <div className="mainOrderSec">
           {/* Address Section  */}
 
           <div className="myOrderChangeOrder">
-            <p>Change Address</p>
+            <p className="button">Change Address</p>
             <ul>
               <li>Joe Cerioia</li>
               <li>B23 L34 Avida Settings</li>
@@ -153,6 +187,7 @@ export default function checkout(props) {
                       </Button>
                     </div>
                   </Box>
+                  <DatePicker selected={date} onChange={(date) => setDate(date)} />
                 </DialogContent>
               </Dialog>
             </div>
@@ -167,9 +202,24 @@ export default function checkout(props) {
           <div className="typesOfPayment">
             <b>Types of Payment</b>
             <ul>
-              <li>Credit Cards</li>
-              <li>Gift Cards</li>
-              <li>Rewards</li>
+              <li>
+                <Image src={'/CARDICONS.png'} height={20} width={100} alt="Credit Card" />
+                <br />
+                <br />
+                Credit Cards
+              </li>
+              <li>
+                <Image src={'/GIFTCARD.png'} height={30} width={30} alt="Gift Cards" />
+                <br />
+                <br />
+                Gift Cards
+              </li>
+              <li>
+                <Image src={'/COIN.png'} height={30} width={30} alt="Coin" />
+                <br />
+                <br />
+                Rewards
+              </li>
             </ul>
           </div>
 
@@ -185,7 +235,9 @@ export default function checkout(props) {
           {/* Submit Order Button  */}
 
           <div className="placeOrder">
-            <button className="placeOrderBtn">Place Order</button>
+            <button className="placeOrderBtn" onClick={orderHandler}>
+              Place Order
+            </button>
           </div>
         </div>
       </div>
@@ -228,7 +280,13 @@ export default function checkout(props) {
               </li>
               <li>
                 <b>Tips</b>
-                <input type="number" step={5} defaultValue={5} onChange={(e) => setTips(e.target.value)}></input>
+                <input
+                  style={{ width: '40px', marginLeft: '10px', textAlign: 'center' }}
+                  type="number"
+                  step={5}
+                  defaultValue={5}
+                  onChange={(e) => setTips(e.target.value)}
+                ></input>
               </li>
             </ul>
           </div>
