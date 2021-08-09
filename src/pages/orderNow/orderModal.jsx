@@ -97,6 +97,7 @@ export default function CustomizedDialogs(props) {
   const [modifierOptionName, setModifierOptionName] = useState();
   const [extraCost, setExtraCost] = useState(0);
   const { cartItems } = useSelector((state) => state.cartData);
+  const { user } = useSelector((state) => state.public);
 
   const handleOpen = () => {
     setOpen(true);
@@ -116,8 +117,7 @@ export default function CustomizedDialogs(props) {
   };
 
   const handleCheckOut = (id, url, title, count, totalVal) => {
-    let userid = Cookies.get('userID');
-    if (userid) {
+    if (user !== null) {
       let insert = {
         productID: id,
         productName: title,

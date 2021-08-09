@@ -1,6 +1,6 @@
 import { Button } from '@paljs/ui/Button';
 import { InputGroup } from '@paljs/ui/Input';
-import { auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,25 +9,30 @@ import Socials from 'components/Auth/Socials';
 import Layout from 'Layouts';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/publicReducer/publicActions';
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const dispatch = useDispatch();
 
   const loginHandler = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((u) => {
-        if (u.user) {
+    var docRef = db.collection('users').doc(email);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
           toast.success('Logged In Successfully');
-          setTimeout(() => router.push('/orderNow'),2000);
-          Cookies.set('userID', JSON.stringify(u.user.uid));
-          Cookies.set('userEmail', JSON.stringify(u.user.email));
+          dispatch(setUser(doc.data()));
+          setTimeout(() => router.push('/orderNow'), 2000);
+        } else {
+          toast.error('No such users');
         }
       })
       .catch((error) => {
+        console.log('Error getting document:', error);
         toast.error(error.message);
       });
   };

@@ -12,6 +12,7 @@ export default function AdminNavigation(props) {
   const router = useRouter();
 
   const { cartCount } = useSelector((state) => state.cartData);
+  const { user } = useSelector((state) => state.public);
 
   const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -23,9 +24,7 @@ export default function AdminNavigation(props) {
   }))(Badge);
 
   const cartHandler = () => {
-    let data = Cookies.get('userID');
-    console.log(data);
-    if (data) {
+    if (user !== null) {
       router.push('/checkout');
     } else {
       router.push('auth/login');

@@ -72,8 +72,10 @@ export default function checkout(props) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const { cartItems, deliveryOption } = useSelector((state) => state.cartData);
+  const { user } = useSelector((state) => state.public);
   const dispatch = useDispatch();
   const router = useRouter();
+  console.log(user);
 
   const removeOneItem = (id) => {
     dispatch(reduceCartCountofProduct(id));
@@ -149,9 +151,9 @@ export default function checkout(props) {
           <div className="myOrderChangeOrder">
             <p className="button">Change Address</p>
             <ul>
-              <li>Joe Cerioia</li>
+              <li>{user?.fullName}</li>
               <li>B23 L34 Avida Settings</li>
-              <li>09193805423</li>
+              <li>{user?.phoneNumber}</li>
             </ul>
           </div>
 

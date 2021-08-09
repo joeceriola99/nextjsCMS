@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Auth from 'components/Auth';
 import Layout from 'Layouts';
 import Socials from 'components/Auth/Socials';
-import { auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
@@ -18,24 +18,30 @@ const Input = styled(InputGroup)`
 export default function Register() {
   const router = useRouter();
   const [email, setEmail] = useState();
+  const [fullName, setFullName] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
   const registerHandler = () => {
-    console.log(email, password, confirmPassword);
     if (password == confirmPassword) {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((u) => {
-          // console.log(u);
-          if (u.user) {
-            toast.success('Registered Successfully');
-            router.push('/home');
-            Cookies.set('user', JSON.stringify(data));
-          }
+      var docData = {
+        emailAddress: email,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        password: password,
+        userType: 'CUSTOMER',
+      };
+
+      db.collection('users')
+        .doc(email)
+        .set(docData)
+        .then(() => {
+          toast.success('Registered Successfully');
+          setTimeout(() => router.push('/auth/login'), 1500);
         })
         .catch((error) => {
-          // console.log(error.message);
+          console.log(error.message);
           toast.error(error.message);
         });
     } else {
@@ -50,6 +56,12 @@ export default function Register() {
         <form>
           <Input fullWidth>
             <input type="email" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)} />
+          </Input>
+          <Input fullWidth>
+            <input type="fullName" placeholder="Full Name" onChange={(e) => setFullName(e.target.value)} />
+          </Input>
+          <Input fullWidth>
+            <input type="phoneNumber" placeholder="Phone Number" onChange={(e) => setPhoneNumber(e.target.value)} />
           </Input>
           <Input fullWidth>
             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
