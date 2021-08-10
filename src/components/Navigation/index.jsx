@@ -5,7 +5,6 @@ import Badge from '@material-ui/core/Badge';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
 
 export default function AdminNavigation(props) {

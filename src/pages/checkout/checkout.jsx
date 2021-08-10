@@ -119,9 +119,9 @@ export default function checkout(props) {
 
   const orderHandler = () => {
     var docData = {
-      emailAddress: 'test@gmail.com',
-      name: 'Joe Cerioia',
-      phoneNumber: '09193805423',
+      emailAddress: user?.emailAddress,
+      name: user?.fullName,
+      phoneNumber: user?.phoneNumber,
       address: 'B23 L34 Avida Settings',
       modeofPayment: { type: 'Credit Card', info: ' 4568150022882982' },
       serviceOption: deliveryOption,

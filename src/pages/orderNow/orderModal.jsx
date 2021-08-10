@@ -18,7 +18,6 @@ import numberFormatter from '../../utils/numberFormatter';
 import { db } from '../../../firebase';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { setCartCount, setCart } from '../../redux/cart';
@@ -93,6 +92,7 @@ export default function CustomizedDialogs(props) {
   const [product, setProduct] = useState(null);
   const [productPrice, setProductPrice] = useState(null);
   const [modifiers, setModifiers] = useState([]);
+  const [selectedModifiers, setSelectedModifiers] = useState([]);
   const [itemCount, setItemCount] = useState(1);
   const [modifierOptionName, setModifierOptionName] = useState();
   const [extraCost, setExtraCost] = useState(0);
@@ -104,15 +104,24 @@ export default function CustomizedDialogs(props) {
   };
   const handleClose = () => {
     setOpen(false);
+    setSelectedModifiers([]);
   };
 
-  const handleChange = (event, cost) => {
+  const handleChange = (event, cost, name) => {
     let val = 0;
     if (event.target.checked == true) {
       val = +extraCost + +cost;
+      setSelectedModifiers([...selectedModifiers, name]);
     } else {
+      const array = selectedModifiers;
+      const index = array.indexOf(name);
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+      setSelectedModifiers(array);
       val = +extraCost - +cost;
     }
+    console.log(selectedModifiers);
     setExtraCost(numberFormatter(+val));
   };
 
@@ -124,6 +133,7 @@ export default function CustomizedDialogs(props) {
         url: url,
         quantity: count,
         cost: totalVal,
+        modifiers: selectedModifiers,
       };
       dispatch(setCart(insert));
       dispatch(setCartCount(count));
@@ -191,12 +201,15 @@ export default function CustomizedDialogs(props) {
               <FormGroup>
                 {modifiers && modifiers
                   ? modifiers.map((data) => {
-                      console.log('Modifier Data', data);
+                      // console.log('Modifier Data', data);
                       return (
                         <div>
                           <FormControlLabel
                             control={
-                              <Checkbox onChange={(e) => handleChange(e, data.mod_price)} name={data.itemDescription} />
+                              <Checkbox
+                                onChange={(e) => handleChange(e, data.mod_price, data.itemDescription)}
+                                name={data.itemDescription}
+                              />
                             }
                             label={data.itemDescription}
                           />
