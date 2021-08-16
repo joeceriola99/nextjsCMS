@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import AddressModal from './addressModal';
 
 const styles = (theme) => ({
   root: {
@@ -75,7 +76,6 @@ export default function checkout(props) {
   const { user } = useSelector((state) => state.public);
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(user);
 
   const removeOneItem = (id) => {
     dispatch(reduceCartCountofProduct(id));
@@ -149,7 +149,7 @@ export default function checkout(props) {
           {/* Address Section  */}
 
           <div className="myOrderChangeOrder">
-            <p className="button">Change Address</p>
+            <AddressModal name={user?.fullName} email={user?.emailAddress} phoneNumber={user?.phoneNumber} />
             <ul>
               <li>{user?.fullName}</li>
               <li>B23 L34 Avida Settings</li>

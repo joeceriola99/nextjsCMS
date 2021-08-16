@@ -335,7 +335,7 @@ a:hover {
   }
 }
 
-/* Design From Rakesh */
+/* Design From Change in */
 .button {
   border: none;
   color: rgb(0, 0, 0);
@@ -505,7 +505,7 @@ a:hover {
   font-size: 17px;
 }
 
-/* Rakesh's Css */
+/* Change in Css */
 .orderMultiSec {
   display: flex;
   /* border: 1px solid; */
@@ -558,4 +558,105 @@ nav.navbar {
   .myOrderRightSec {
     width: 100%;
   }
+}
+
+.myModalFullBox {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.438);
+  z-index: 99999;
+
+}
+.myModalBoxMain {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  background: white;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 15px;
+}
+.myModal {
+  font-size: 15px;
+}
+.myPopUpForm {
+  margin-top: 20px;
+}
+.myOrderChangeOrder {
+  margin-bottom: 15px;
+}
+.oldAddress {
+  font-size: 13px;
+}
+.myModal h3 {
+  font-size: 20px;
+  margin-top: 15px;
+}
+.formUl {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+}
+.formUl input {
+  width: 49%;
+  margin-right: 2%;
+  margin-bottom: 15px;
+}
+.formUl input:nth-child(2n) {
+  margin-right: 0;
+}
+.myPopUpForm input:not(.form-check-input) {
+  height: 35px;
+}
+
+.myPopUpForm input,
+.myPopUpForm textarea,
+.myPopUpForm input::placeholder {
+  color: black;
+  font-size: 13px;
+  font-weight: 500;
+}
+.myPopUpForm input:focus,
+.myPopUpForm textarea:focus {
+  border-color: #1cd391;
+  box-shadow: 0 0 0 0.125rem rgb(28 211 145 / 20%);
+}
+.myModal textarea {
+  resize: none;
+}
+.myModal .form-check {
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.myModal .form-check span {
+  color: #1cd391;
+  margin-left: 20px;
+}
+.myModal .form-check .form-check-input:checked {
+  background-color: #1cd391;
+  border-color: #1cd391;
+}
+.myModal .form-check .form-check-input:focus {
+  box-shadow: none;
+}
+.modalPopUpBtn {
+  background: #e60c0c;
+  color: whitesmoke;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 13px;
+}
+.modalPopUpBtn:hover {
+  color: whitesmoke;
 }
